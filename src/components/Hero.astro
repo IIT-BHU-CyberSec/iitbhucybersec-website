@@ -1,0 +1,55 @@
+---
+import logo from '@/assets/logo.svg'
+import { Image } from 'astro:assets'
+
+export interface Props {
+  frontmatter: Partial<{
+    gradient: boolean
+    background: boolean
+    logo: boolean
+  }>
+}
+
+const { gradient, background, logo: showLogo } = Astro.props.frontmatter
+---
+
+<div class="w-fit">
+  <div
+    class:list={[
+      'relative mb-1 w-fit pb-2 text-5xl font-bold tracking-tight text-accent sm:mb-2 sm:text-8xl',
+      {
+        'bg-gradient-to-r from-accent/100 via-accent/75 to-accent/50 bg-clip-text text-transparent':
+          gradient
+      },
+      {
+        'mb-2 sm:mb-8': background
+      }
+    ]}
+  >
+    <div class="flex items-center gap-4 sm:gap-8">
+      {
+        showLogo && (
+          <Image
+            loading="eager"
+            alt="Nordlys logo, a drawing of two gray mountains with green northern lights in the background"
+            src={logo}
+            class="h-[48px] w-fit object-scale-down sm:h-24"
+          />
+        )
+      }
+      <h1>
+        <slot />
+      </h1>
+    </div>
+    {
+      background && (
+        <span
+          class:list={[
+            'absolute inset-0 h-full w-full bg-accent/75 blur-3xl',
+            { 'ml-12 sm:ml-20': showLogo }
+          ]}
+        />
+      )
+    }
+  </div>
+</div>

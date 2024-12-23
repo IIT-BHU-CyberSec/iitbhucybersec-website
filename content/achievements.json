@@ -1,0 +1,57 @@
+[	
+	{
+		"id": 1,
+		"title": "SpookyCTF 2024",
+		"position": 1,
+		"link": "https://ctftime.org/event/2516",
+		"date": "2024-10-25",
+		"ctf_points": 17109.000,
+		"rating_points": 44.800
+	},
+	{
+		"id": 2,
+		"title": "Hackers N' Hops",
+		"position": 2,
+		"link": "https://ctftime.org/event/2550",
+		"date": "2024-11-02",
+		"ctf_points": 1815.000,
+		"rating_points": 34.286
+	},
+	{
+		"id": 3,
+		"title": "CYBERGON CTF_2024",
+		"position": 43,
+		"link": "https://ctftime.org/event/2560",
+		"date": "2024-11-30",
+		"ctf_points": 1464.000,
+		"rating_points": 7.863
+	},
+	{
+		"id": 4,
+		"title": "CSAW CTF Qualification Round 2024",
+		"position": 47,
+		"link": "https://ctftime.org/event/2398",
+		"date": "2024-09-06",
+		"ctf_points": 4932.000,
+		"rating_points": 17.250
+	},
+	{
+		"id": 5,
+		"title": "CyberSpace CTF 2024",
+		"position": 32,
+		"link": "https://ctftime.org/event/2428",
+		"date": "2024-08-30",
+		"ctf_points": 4259.000,
+		"rating_points": 7.177
+	},
+	{
+		"id": 6,
+		"title": "OSCTF",
+		"position": 16,
+		"link": "https://ctftime.org/event/2416",
+		"date": "2024-07-13",
+		"ctf_points": 5955.000,
+		"rating_points": 13.802
+	}
+
+]

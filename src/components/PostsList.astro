@@ -1,0 +1,25 @@
+---
+import PostPreview from '@/components/PostPreview.astro'
+import Separator from '@/components/layout/Separator.astro'
+import { sortPosts } from '@/util/posts'
+import type { CollectionEntry } from 'astro:content'
+
+export interface Props {
+  posts: CollectionEntry<'posts'>[]
+}
+
+const { posts } = Astro.props
+
+posts.sort(sortPosts)
+---
+
+<ul class="list-none p-0">
+  {
+    posts.map((post, index) => (
+      <li class="pl-0">
+        <PostPreview {post} />
+        {index !== posts.length - 1 && <Separator class="my-6" />}
+      </li>
+    ))
+  }
+</ul>

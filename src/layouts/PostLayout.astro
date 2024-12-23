@@ -1,0 +1,78 @@
+---
+import AdjacentPostsBar from '@/components/AdjacentPostsBar.astro'
+import TagsBar from '@/components/TagsBar.astro'
+import ToC from '@/components/ToC.astro'
+import PageLayout, {
+  type Props as PageLayoutProps
+} from '@/layouts/PageLayout.astro'
+import HeadingAnchorsPlugin from '@/plugins/HeadingAnchorsPlugin.astro'
+import { toDateString } from '@/util'
+import { resolveTags } from '@/util/tags'
+import { render, type CollectionEntry } from 'astro:content'
+
+export interface Props {
+  post: CollectionEntry<'posts'>
+}
+
+const { post } = Astro.props
+
+const {
+  Content,
+  remarkPluginFrontmatter: { readingTime },
+  headings
+} = await render(post)
+
+const frontmatter: PageLayoutProps['frontmatter'] = {
+  ...post.data,
+  openGraphImage: post.data.openGraphImage || `/posts/${post.id}.png`,
+  activeHeaderLink: 'Blog',
+  scrollProgress: true
+}
+---
+
+<PageLayout {frontmatter}>
+  <div slot="top" class="mt-4">
+    <a href="/posts" class="clickable flex w-fit items-center gap-1">
+      <span class="iconify text-xl tabler--arrow-left"></span>
+      Back to all posts
+    </a>
+  </div>
+
+  <h1 class="my-2 sm:my-4">{frontmatter.title}</h1>
+  <TagsBar tags={resolveTags(post.data.tags)} />
+
+  <div class="mt-4">
+    <span class="opacity-75"
+      >Published on <time datetime={post.data.publishedDate.toISOString()}
+        >{toDateString(post.data.publishedDate)}</time
+      > by</span
+    >
+    <a class="clickable" href={`/authors/${post.data.author}`}
+      >{post.data.author}</a
+    > · <span class="whitespace-nowrap opacity-75">{readingTime} </span>
+  </div>
+
+  {
+    !!post.data.showToC && (
+      <div
+        slot="aside"
+        class="mt-24 hidden border-r border-accent pr-4 opacity-75 transition duration-500 ease-in-out hover:opacity-100 2xl:block"
+      >
+        <ToC {headings} open />
+      </div>
+    )
+  }{
+    !!post.data.showToC && (
+      <div class="mt-8 w-fit rounded border 2xl:hidden">
+        <ToC {headings} />
+      </div>
+    )
+  }
+
+  <article data-pagefind-body>
+    <Content />
+  </article>
+
+  <AdjacentPostsBar {post} slot="bottom" />
+  <HeadingAnchorsPlugin />
+</PageLayout>

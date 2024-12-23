@@ -1,0 +1,14 @@
+<script>
+  import 'medium-zoom/dist/style.css'
+</script>
+
+<script>
+  import mediumZoom from 'medium-zoom/dist/pure'
+
+  document.addEventListener('astro:page-load', () => {
+    mediumZoom('[data-img-embed]', {
+      margin: 48,
+      background: '#000000BF'
+    })
+  })
+</script>

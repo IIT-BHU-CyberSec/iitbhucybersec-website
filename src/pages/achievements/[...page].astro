@@ -1,0 +1,35 @@
+---
+import Pagination from '@/components/Pagination.astro'
+import AchievementsList from '@/components/AchievementsList.astro'
+import PageLayout, {
+  type Props as PageLayoutProps
+} from '@/layouts/PageLayout.astro'
+import config from '@/theme.config'
+import { getAchievements } from '@/util/achievements'
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro'
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const achievements = await getAchievements()
+
+  return paginate(achievements, { pageSize: config.achievementsPerPage })
+}) satisfies GetStaticPaths
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>
+
+const { page } = Astro.props
+
+const frontmatter: PageLayoutProps['frontmatter'] = {
+  title: 'Achievements',
+  activeHeaderLink: 'Achievements',
+  canonicalURL: new URL('/achievements/1', Astro.site).toString()
+}
+---
+
+<PageLayout {frontmatter}>
+  <h1>
+    {frontmatter.title}
+  </h1>
+  <AchievementsList achievements={page.data} />
+
+  <Pagination slot="bottom" page={page} />
+</PageLayout>

@@ -1,0 +1,22 @@
+---
+import AchievementPreview from '@/components/AchievementPreview.astro'
+import Separator from '@/components/layout/Separator.astro'
+import type { CollectionEntry } from 'astro:content'
+
+export interface Props {
+  achievements: CollectionEntry<'achievements'>[]
+}
+console.log(Astro.props)
+const { achievements } = Astro.props
+---
+
+<ul class="list-none p-0">
+  {
+    achievements.map((achievement, index) => (
+      <li class="pl-0">
+        <AchievementPreview {achievement} />
+        {index !== achievements.length - 1 && <Separator class="my-6" />}
+      </li>
+    ))
+  }
+</ul>

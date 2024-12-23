@@ -1,0 +1,53 @@
+---
+import PostsList from '@/components/PostsList.astro'
+import ProjectsList from '@/components/ProjectsList.astro'
+import PageLayout, {
+  type Props as PageLayoutProps
+} from '@/layouts/PageLayout.astro'
+import { getPosts } from '@/util/posts'
+import { getProjects } from '@/util/projects'
+import { generateTags } from '@/util/tags'
+import type { InferGetStaticPropsType } from 'astro'
+
+const {
+  tag: { tag, icon }
+} = Astro.props
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>
+
+export async function getStaticPaths() {
+  const tags = await generateTags()
+
+  return tags.map(({ tag, icon }) => ({
+    params: { tag },
+    props: { tag: { tag, icon } }
+  }))
+}
+
+const posts = await getPosts(tag)
+
+const projects = await getProjects(tag)
+
+const frontmatter: PageLayoutProps['frontmatter'] = {
+  title: `Tag: ${tag}`,
+  activeHeaderLink: 'Tags'
+}
+---
+
+<PageLayout {frontmatter}>
+  <div slot="top" class="mt-4">
+    <a href="/tags" class="clickable flex w-fit items-center gap-1">
+      <span class="iconify text-xl tabler--arrow-left"></span>
+      Back to all tags
+    </a>
+  </div>
+
+  <h1>
+    <span class={`iconify align-middle text-5xl sm:text-6xl ${icon}`}></span>
+    <span>{tag}</span>
+  </h1>
+  {!!posts.length && <h2>Posts</h2>}
+  <PostsList {posts} />
+  {!!projects.length && <h2>Projects</h2>}
+  <ProjectsList {projects} />
+</PageLayout>

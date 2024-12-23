@@ -1,0 +1,124 @@
+---
+import HeaderItem from '@/components/layout/HeaderItem.astro'
+import type { NavItemParent } from '@/types'
+import { generateItemId } from '@/util'
+
+export interface Props {
+  item: NavItemParent
+  activeHeaderLink?: string
+}
+
+const {
+  item: { children, icon, label },
+  activeHeaderLink
+} = Astro.props
+
+const isActive = children.some(
+  (item) => activeHeaderLink === item.label || activeHeaderLink === item.href
+)
+
+const buttonId = generateItemId(`${label}-button`)
+const menuId = generateItemId(`${label}-menu`)
+---
+
+<dropdown-parent
+  class="relative inline-block"
+  data-is-active={String(isActive)}
+>
+  <button
+    id={buttonId}
+    aria-haspopup="true"
+    aria-controls={menuId}
+    aria-expanded="false"
+    class:list={[
+      'flex cursor-pointer items-center gap-1 whitespace-nowrap',
+      { 'text-accent/100': isActive },
+      { clickable: !isActive }
+    ]}
+  >
+    {icon && <span class={`iconify text-xl ${icon}`} />}
+    <span class:list={[{ underline: isActive }]}>
+      {label}
+    </span>
+    <span
+      aria-hidden="true"
+      class="iconify text-xl transition-transform duration-500 tabler--chevron-down"
+    ></span>
+  </button>
+
+  <ul
+    id={menuId}
+    role="menu"
+    aria-labelledby={buttonId}
+    class="absolute right-0 z-10 mt-4 hidden origin-top-right flex-col gap-2 rounded border border-accent/25 bg-accent-bg p-4 shadow shadow-black"
+  >
+    {
+      children.map((item) => (
+        <li role="none">
+          <HeaderItem
+            role="menuitem"
+            {item}
+            isActive={
+              activeHeaderLink === item.label || activeHeaderLink === item.href
+            }
+          />
+        </li>
+      ))
+    }
+  </ul>
+</dropdown-parent>
+
+<script>
+  class Dropdown extends HTMLElement {
+    connectedCallback() {
+      const isActive = this.dataset.isActive == 'true'
+
+      const button = this.querySelector('button')
+      const menu = this.querySelector('ul')
+
+      if (!button || !menu) return
+
+      const firstItem = menu.querySelector('a')
+
+      const showMenu = () => {
+        if (!isActive) button.classList.replace('clickable', 'text-accent/100')
+        button.setAttribute('aria-expanded', 'true')
+
+        menu.classList.replace('hidden', 'flex')
+
+        this.querySelector('.tabler--chevron-down')?.classList.add(
+          '-rotate-180'
+        )
+
+        firstItem?.focus()
+      }
+      const hideMenu = () => {
+        if (!isActive) button.classList.replace('text-accent/100', 'clickable')
+        button.setAttribute('aria-expanded', 'false')
+
+        menu.classList.replace('flex', 'hidden')
+
+        this.querySelector('.tabler--chevron-down')?.classList.remove(
+          '-rotate-180'
+        )
+      }
+
+      button.addEventListener('click', () => {
+        if (menu.className.includes('hidden')) {
+          showMenu()
+        } else {
+          hideMenu()
+        }
+      })
+
+      document.addEventListener('click', function (event) {
+        const target = event.target as Node | null
+        if (!button.contains(target) && !menu.contains(target)) {
+          hideMenu()
+        }
+      })
+    }
+  }
+
+  customElements.define('dropdown-parent', Dropdown)
+</script>

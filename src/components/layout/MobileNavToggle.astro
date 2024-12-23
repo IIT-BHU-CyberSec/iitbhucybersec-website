@@ -1,0 +1,50 @@
+<mobile-nav-toggle>
+  <button
+    class="flex items-center"
+    title="Toggle mobile nav"
+    aria-label="closed"
+  >
+    <span
+      aria-hidden="true"
+      id="mobile-nav-icon"
+      class="clickable iconify tabler--menu-2"></span>
+  </button>
+</mobile-nav-toggle>
+
+<script>
+  class MobileNavToggle extends HTMLElement {
+    connectedCallback() {
+      const iconOpen = 'tabler--x'
+      const iconClosed = 'tabler--menu-2'
+
+      const nav = document.querySelector('#mobile-nav')
+      const icon = this.querySelector('#mobile-nav-icon')
+      const button = this.querySelector('button')
+
+      if (!nav || !icon || !button) return
+
+      const navIsOpen = () => !nav.classList.contains('hidden')
+
+      const close = () => {
+        nav.classList.add('hidden')
+        icon.classList.replace(iconOpen, iconClosed)
+        button.setAttribute('aria-label', 'closed')
+      }
+
+      const open = () => {
+        nav.classList.remove('hidden')
+        icon.classList.replace(iconClosed, iconOpen)
+        button.setAttribute('aria-label', 'open')
+      }
+
+      const handleToggle = () => {
+        if (navIsOpen()) close()
+        else open()
+      }
+
+      button.addEventListener('click', handleToggle)
+    }
+  }
+
+  customElements.define('mobile-nav-toggle', MobileNavToggle)
+</script>
