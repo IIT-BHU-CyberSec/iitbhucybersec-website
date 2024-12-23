@@ -28,7 +28,7 @@ const frontmatter: PageLayoutProps['frontmatter'] = {
     {frontmatter.title}
     <span>{` (page ${page.currentPage})`}</span>
   </h1>
-  <AchievementsList posts={page.data} />
+  <AchievementsList achievements={page.data} />
 
   <Pagination slot="bottom" page={page} />
 </PageLayout>
