@@ -1,17 +1,16 @@
 ---
 import Pagination from '@/components/Pagination.astro'
-import PostsList from '@/components/PostsList.astro'
+import MembersList from '@/components/MembersList.astro'
 import PageLayout, {
   type Props as PageLayoutProps
 } from '@/layouts/PageLayout.astro'
 import config from '@/theme.config'
-import { getPosts } from '@/util/posts'
+import { getMembers } from '@/util/members'
 import type { GetStaticPaths, InferGetStaticPropsType } from 'astro'
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const posts = await getPosts()
-
-  return paginate(posts, { pageSize: config.postsPerPage })
+  const members = await getMembers()
+  return paginate(members, { pageSize: config.memberRowsPerPage })
 }) satisfies GetStaticPaths
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>
@@ -29,7 +28,7 @@ const frontmatter: PageLayoutProps['frontmatter'] = {
     {frontmatter.title}
     <span>{` (page ${page.currentPage})`}</span>
   </h1>
-  <PostsList posts={page.data} />
+  <MembersList members={page.data} />
 
   <Pagination slot="bottom" page={page} />
 </PageLayout>

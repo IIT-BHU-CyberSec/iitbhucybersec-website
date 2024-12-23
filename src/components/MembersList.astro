@@ -1,0 +1,16 @@
+---
+import MemberPreview from '@/components/MemberPreview.astro'
+import Separator from '@/components/layout/Separator.astro'
+import type { CollectionEntry } from 'astro:content'
+
+export interface Props {
+  members: CollectionEntry<'members'>[]
+}
+const { members } = Astro.props
+---
+
+<div class="grid grid-cols-2 gap-8">
+  {members.map((member) => (
+      <MemberPreview {member} />
+  ))}
+</div>

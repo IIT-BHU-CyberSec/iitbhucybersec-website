@@ -7,9 +7,11 @@ import codeHeadersPlugin from './src/plugins/codeHeadersPlugin'
 import readingTimePlugin from './src/plugins/readingTimePlugin'
 import config from './src/theme.config'
 
+import icon from 'astro-icon';
+
 export default defineConfig({
   site: config.site,
-  integrations: [tailwind(), mdx(), sitemap()],
+  integrations: [tailwind(), mdx(), sitemap(), icon()],
   markdown: {
     shikiConfig: {
       themes: config.shikiThemes,

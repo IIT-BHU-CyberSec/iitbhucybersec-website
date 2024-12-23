@@ -35,11 +35,13 @@ const projects = defineCollection({
     })
 })
 
-const authors = defineCollection({
-  loader: file("./content/authors.json"),
+const members = defineCollection({
+  loader: file("./content/members.json"),
   schema: z.object({
     id: z.string(),
+    name: z.string(),
     bio: z.string(),
+    description: z.string().optional(),
     socials: z.record(z.string(), z.string().url()).optional(),
   }),
 })
@@ -57,4 +59,4 @@ const achievements = defineCollection({
   }),
 })
 
-export const collections = { posts, projects, authors, achievements }
+export const collections = { posts, projects, members, achievements }

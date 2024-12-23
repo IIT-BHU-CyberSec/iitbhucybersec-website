@@ -15,13 +15,23 @@ export default defineThemeConfig({
   footerItems: [
     {
       icon: 'tabler--brand-github',
-      href: 'https://github.com/FjellOverflow/nordlys',
+      href: 'https://github.com/IIT-BHU-CyberSec',
       label: 'Github'
     },
     {
-      icon: 'tabler--rss',
-      href: '/feed.xml',
-      label: 'RSS feed'
+      icon: 'tabler--brand-linkedin',
+      href: 'https://in.linkedin.com/company/iit-bhu-cybersec',
+      label: 'LinkedIn'
+    },
+    {
+      icon: 'tabler--brand-x',
+      href: '#',
+      label: 'Twitter'
+    },
+    {
+      icon: 'tabler--brand-instagram',
+      href: '#',
+      label: 'Instagram'
     }
   ],
 
@@ -34,6 +44,7 @@ export default defineThemeConfig({
   postsPerPage: 3,
   projectsPerPage: 2,
   achievementsPerPage: 5,
+  memberRowsPerPage: 4,
   scrollProgress: false,
   scrollToTop: true,
   tagIcons: {
