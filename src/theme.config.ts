@@ -8,9 +8,16 @@ export default defineThemeConfig({
   navbarItems: [
     { label: 'Blog', href: '/posts' },
     { label: 'Projects', href: '/projects' },
-    { label: 'Achievements', href: '/achievements' },
-    { label: 'Members', href: '/members' },
     { label: 'About', href: '/about' },
+    {
+      label: 'Other Stuff',
+      children: [
+        { label: 'Achievements', href: '/achievements' },
+        { label: 'Members', href: '/members' },
+        { label: 'Resources', href: '/resources' },
+        { label: 'Events', href: '/events' },
+      ]
+    }
   ],
   footerItems: [
     {
