@@ -50,7 +50,7 @@ export default defineThemeConfig({
   openGraphImage: undefined,
   postsPerPage: 3,
   projectsPerPage: 2,
-  achievementsPerPage: 4,
+  achievementsPerPage: 5,
   memberRowsPerPage: 4,
   scrollProgress: false,
   scrollToTop: true,
