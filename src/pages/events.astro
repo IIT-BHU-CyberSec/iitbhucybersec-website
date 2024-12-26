@@ -1,0 +1,107 @@
+---
+import EventsList from '@/components/EventsList.astro'
+import { Icon } from 'astro-icon/components';
+import { marked } from 'marked';
+import PageLayout, {
+  type Props as PageLayoutProps
+} from '@/layouts/PageLayout.astro'
+import { getEvents } from '@/util/events'
+import Prose from '@/components/layout/Prose.astro'
+
+const workshops_done = await getEvents('workshop', 'done')
+const workshops_upcoming = await getEvents('workshop', 'upcoming')
+const ctfs_done = await getEvents('ctf', 'done')
+const ctfs_upcoming = await getEvents('ctf', 'upcoming')
+const sessions_done = await getEvents('session', 'done')
+const sessions_upcoming = await getEvents('session', 'upcoming')
+const events = await getEvents('session', 'upcoming')
+
+const frontmatter: PageLayoutProps['frontmatter'] = {
+  title: 'Events',
+  activeHeaderLink: 'Events'
+}
+---
+<script>
+const filters = ["ctf", "workshop", "session"]
+function changeType(type: string): void {
+  let active = type
+  const filtersToHide = filters.filter((a) => a != type)
+  const elementsToShow = document.getElementsByClassName(active)
+  for(let i = 0; i < elementsToShow.length; i++) {
+    elementsToShow[i].style.display = "block"
+  }
+  for(let i = 0; i < filtersToHide.length; i++) {
+    const elementsToHide = document.getElementsByClassName(filtersToHide[i])
+    for(let j = 0; j < elementsToHide.length; j++) {
+      elementsToHide[j].style.display = "none"
+    }
+  }
+  document.getElementById("ctf_button").style.textDecoration = "none"
+  document.getElementById("workshop_button").style.textDecoration = "none"
+  document.getElementById("session_button").style.textDecoration = "none"
+  document.getElementById(active+"_button").style.textDecoration = "underline"
+  document.getElementById("ctf_button").style.opacity = 0.75
+  document.getElementById("workshop_button").style.opacity = 0.75
+  document.getElementById("session_button").style.opacity = 0.75
+  document.getElementById(active+"_button").style.opacity = 1
+}
+document.addEventListener('astro:page-load', () => {
+  document.getElementById("ctf_button").addEventListener("click", () => changeType('ctf')); 
+  document.getElementById("workshop_button").addEventListener("click", () => changeType('workshop')); 
+  document.getElementById("session_button").addEventListener("click", () => changeType('session')); 
+})
+</script>
+<PageLayout {frontmatter}>
+<div>
+  <h1 class="mb-4">Events</h1>
+  <div class="flex gap-4">
+      <button id="ctf_button" class="hover:underline underline">CTFs</button> 
+      <button id="workshop_button" class="hover:underline opacity-75">Workshops</button> 
+      <button id="session_button" class="hover:underline opacity-75">Talks</button>
+  </div>
+</div>
+  <div class="ctf">
+  {
+    ctfs_upcoming.length > 0 && (
+      <h3 class="text-4xl opacity-75 underline">Upcoming</h3>
+      <EventsList events={ctfs_upcoming} />
+    )
+  }
+  {
+    ctfs_done.length > 0 && (
+    <h3 class="text-4xl opacity-75 underline">Past CTFs</h3>
+    <EventsList events={ctfs_done}/>
+    )
+    }
+  </div>
+  <div class="workshop hidden">
+  {
+    workshops_upcoming.length > 0 && (
+      <h3 class="text-4xl opacity-75 underline">Upcoming</h3>
+      <EventsList events={workshops_upcoming} />
+    )
+  }
+  {
+    workshops_done.length > 0 && (
+    <h3 class="text-4xl opacity-75 underline">Past Workshops</h3>
+    <EventsList events={workshops_done}/>
+    )
+    }
+  </div>
+  <div class="session hidden">
+  {
+    sessions_upcoming.length > 0 && (
+      <h3 class="text-4xl opacity-75 underline">Upcoming</h3>
+      <EventsList events={sessions_upcoming} />
+    )
+  }
+  {
+    sessions_done.length > 0 && (
+    <h3 class="text-4xl opacity-75 underline">Past Talks</h3>
+    <EventsList events={sessions_done}/>
+    )
+  }
+  </div>
+
+</PageLayout>
+

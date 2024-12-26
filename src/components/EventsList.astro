@@ -1,0 +1,21 @@
+---
+import EventPreview from '@/components/EventPreview.astro'
+import Separator from '@/components/layout/Separator.astro'
+import type { CollectionEntry } from 'astro:content'
+
+export interface Props {
+  events: CollectionEntry<'events'>[]
+}
+const { events } = Astro.props
+---
+
+<ul class="list-none p-0">
+  {
+    events.map((event, index) => (
+      <li class="pl-0">
+        <EventPreview {event} />
+        {index !== events.length - 1 && <Separator class="my-6" />}
+      </li>
+    ))
+  }
+</ul>

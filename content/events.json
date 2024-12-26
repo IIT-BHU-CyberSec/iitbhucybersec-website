@@ -1,0 +1,40 @@
+[
+	{
+		"id": 1,
+		"title": "Learn to Hack - 0: Introduction",
+		"type": "workshop",
+		"date": "27th October, 2024",
+		"status": "done",
+		"image": "public/events/workshops/learn_to_hack_0_introduction.png",
+		"description": "An introductory session targeted for IIT(BHU) students. The session aims to educate students about cybersecurity culture, what CTFs are and the functioning of the IIT(BHU)CyberSec team.",
+		"link": "https://docs.google.com/presentation/d/e/2PACX-1vQxeZv0UlqltVrahONtsNnBgC4FDR-uLYM4vYPejAwRJx71wsFFvQ8iHF_pmCoYp1sQn9qQMoDKam3l/pub?start=false&loop=false&delayms=3000"
+	},
+	{
+		"id": 2,
+		"title": "Learn to Hack - 1: Bash Scripting",
+		"type": "workshop",
+		"date": "25th December, 2024",
+		"status": "done",
+		"image": "public/events/workshops/learn_to_hack_1_bash.png",
+		"description": "An exclusive session for IIT(BHU) students, aimed to teach them Linux Fundamentals as well as Bash Scripting. The workshop will cover shell commands, filesystems, processes along with tips and tricks to be a pro linux user.",
+		"link": "https://www.canva.com/design/DAGaGP5QqHw/RkfPtLXe088H1LfUOusQJw/edit?utm_content=DAGaGP5QqHw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
+	},
+	{
+		"id": 3,
+		"title": "WannaHack CTF 2025",
+		"type": "ctf",
+		"date": "10th - 12th January, 2025",
+		"status": "upcoming",
+		"image": "public/events/ctfs/wannahack.png",
+		"description": "A beginner friendly Capture the Flag contest exclusively for IIT(BHU) students. Students will compete individually for 48 hours, learning cyber security concepts in a fun and engaging manner. Moreover, this year we also have a prize pool of Rs. 5000, to make things more interesting!"
+	},
+	{
+		"id": 4,
+		"title": "Buidling Early Career in Cyber Security",
+		"type": "session",
+		"date": "5th November, 2024",
+		"status": "done",
+		"image": "../public/events/sessions/building_early_career_in_cybersecurity.png",
+		"description": "A session by Mr. Shikhar Beriwal, CEO at Cyber Unbound. He will talk about various career opportunities in Cyber Security, and how to successfully build a career in them. The session also aims to discuss various problems faced during applying for job opportunities and how Cyber Unbound can help students in getting hired through their platform."
+	}
+]

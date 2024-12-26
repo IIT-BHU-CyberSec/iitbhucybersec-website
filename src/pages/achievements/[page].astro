@@ -24,10 +24,13 @@ const frontmatter: PageLayoutProps['frontmatter'] = {
 ---
 
 <PageLayout {frontmatter}>
-  <h1>
+  <h1 class="mb-4">
     {frontmatter.title}
-    <span>{` (page ${page.currentPage})`}</span>
   </h1>
+  <div class="flex flex-row gap-4 mb-8">
+<div class="text-xl">India Rank: 10</div>
+<div class="text-xl">Global Rank: 249</div>
+  </div>
   <AchievementsList achievements={page.data} />
 
   <Pagination slot="bottom" page={page} />

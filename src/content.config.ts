@@ -59,4 +59,19 @@ const achievements = defineCollection({
   }),
 })
 
-export const collections = { posts, projects, members, achievements }
+const events = defineCollection({
+  loader: file("./content/events.json"),
+  schema: ({image}) =>
+    z.object({
+      id: z.number(),
+      title: z.string(),
+      type: z.string(["workshop", "session", "CTF"]),
+      date: z.string(),
+      status: z.enum(["done", "upcoming"]),
+      image: image(),
+      description: z.string(),
+      link: z.string().url().optional(),
+  }),
+})
+
+export const collections = { posts, projects, members, achievements, events }
