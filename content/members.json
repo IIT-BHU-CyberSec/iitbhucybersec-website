@@ -10,5 +10,16 @@
 			"github": "https://rebrand.ly/yuval-github",
 			"x": "https://rebrand.ly/yuval-twitter"
 		}
+	},
+	{
+		"id": "ScourgeXV",
+		"name": "Saatvic Sehgal",
+		"bio": "Why so Serious ;)",
+		"description": "Hey there! Myself **Saatvic Sehgal**, 2nd year student of Mechanical Engineering, IIT(BHU) Varanasi.",
+		"socials":{
+			"linkedin": "https://www.linkedin.com/in/saatvic-sehgal/",
+			"github": "https://github.com/ScourgeXV",
+			"codeforces": "https://codeforces.com/profile/ScourgeXV"
+		}
 	}
 ]
