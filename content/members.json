@@ -10,5 +10,16 @@
 			"github": "https://rebrand.ly/yuval-github",
 			"x": "https://rebrand.ly/yuval-twitter"
 		}
+	},
+	{
+		"id": "savsch",
+		"name": "Tanmay Gupta",
+		"bio": "btw I use arch",
+		"description": "another day maybe?",
+		"socials":{
+			"linkedin": "https://rebrand.ly/mLinkedin",
+			"github": "https://rebrand.ly/savv-github",
+			"codeforces": "https://rebrand.ly/mCodeforces"
+		}
 	}
 ]
