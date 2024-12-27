@@ -10,5 +10,16 @@
 			"github": "https://rebrand.ly/yuval-github",
 			"x": "https://rebrand.ly/yuval-twitter"
 		}
+	},
+	{
+		"id": "h0gw4rt5",
+		"name": "Varalika Agarwal",
+		"bio": "Phoenix",
+		"description": "Hey!! I am **Varalika Agarwal**, a sophomore studying Mathematics & Computing at IIT (BHU), Varanasi, India. I am passionate about learning new things and constantly striving to improve myself.",
+		"socials":{
+			"linkedin": "https://www.linkedin.com/in/varalika-agarwal/",
+			"github": "https://github.com/VaralikaAg",
+			"codeforces": "https://codeforces.com/profile/Varalika"
+		}
 	}
 ]
