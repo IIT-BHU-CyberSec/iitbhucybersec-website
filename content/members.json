@@ -20,6 +20,17 @@
 			"linkedin": "https://rebrand.ly/mLinkedin",
 			"github": "https://rebrand.ly/savv-github",
 			"codeforces": "https://rebrand.ly/mCodeforces"
+	},
+	{
+		"id": "iedfa",
+		"name": "Arnav Kumar Sinha",
+		"bio": "![https://xkcd.com/1024/](https://imgs.xkcd.com/comics/error_code.png)",
+		"description": "This is Arnav. I like cryptography.",
+		"socials":{
+			"twitter": "https://iedfa.bsky.social",
+			"github": "https://github.com/JustAnAverageGuy/",
+			"linkedin": "https://www.linkedin.com/in/iedfa/",
+			"codeforces": "https://codeforces.com/profile/iedfa",
 		}
 	}
 ]
