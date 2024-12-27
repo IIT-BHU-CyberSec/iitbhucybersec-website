@@ -10,5 +10,15 @@
 			"github": "https://rebrand.ly/yuval-github",
 			"x": "https://rebrand.ly/yuval-twitter"
 		}
+	},
+	{
+		"id": "Wizard",
+		"name": "Varun Trivedi",
+		"bio": "you have seen this before",
+		"description": "void (*wizard)(void)=(void (*)(void))0xDEADC0DE;",
+		"socials":{
+			"github": "https://github.com/Wizard079"
+		}
+		
 	}
 ]
