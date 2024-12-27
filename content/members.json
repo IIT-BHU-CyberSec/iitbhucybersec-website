@@ -10,5 +10,15 @@
 			"github": "https://rebrand.ly/yuval-github",
 			"x": "https://rebrand.ly/yuval-twitter"
 		}
+	},
+	{
+		"id": "shinigami-777",
+		"name": "Tamaghna Chattopadhyay",
+		"bio": "I wish I was a cat",
+		"description": "Nyanyame nyanyajyuunyanya-do no nyarabi de nyakunyaku inyanyaku nyanyahan nyanyadai nyanynaku nyarabete nyaganyagame",
+		"socials":{
+			"github": "https://github.com/shinigami-777",
+			"codeforces": "https://codeforces.com/profile/shinigami777"
+		}
 	}
 ]
