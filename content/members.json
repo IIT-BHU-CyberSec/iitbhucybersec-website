@@ -10,5 +10,15 @@
 			"github": "https://rebrand.ly/yuval-github",
 			"x": "https://rebrand.ly/yuval-twitter"
 		}
+	},
+	{
+		"id": "criticic",
+		"name": "Sagnik Mandal",
+		"bio": "some guy",
+		"description": "not much",
+		"socials":{
+			"linkedin": "https://www.linkedin.com/in/SagnikMandal",
+			"github": "https://github.com/criticic"
+		}
 	}
 ]
