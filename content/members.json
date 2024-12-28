@@ -84,5 +84,16 @@
 			"github": "https://github.com/ScourgeXV",
 			"codeforces": "https://codeforces.com/profile/ScourgeXV"
 		}
+	},
+	{
+		"id": "conjectureguy",
+		"name": "Rahul R Katarki",
+		"bio": "i try to think",
+		"description": "nothing too special here",
+		"socials": {
+			"linkedin": "https://www.linkedin.com/in/rahulrkatarki/",
+			"github": "https://github.com/conjectureguy",
+			"codeforces": "https://codeforces.com/profile/conjectureguy"
+		}
 	}
 ]
