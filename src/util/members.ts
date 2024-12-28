@@ -12,3 +12,8 @@ export const getMembers = async (
   }
   return members
 }
+
+export const getMemberIds = async () => {
+  const members = await getMembers()
+  return members.map((member) => member.data.id)
+}

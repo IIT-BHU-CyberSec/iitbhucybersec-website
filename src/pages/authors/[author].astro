@@ -5,13 +5,13 @@ import { marked } from 'marked';
 import PageLayout, {
   type Props as PageLayoutProps
 } from '@/layouts/PageLayout.astro'
-import { generateAuthors, getPosts } from '@/util/posts'
+import { getPosts } from '@/util/posts'
+import { getMemberIds } from '@/util/members'
 import {getMembers} from '@/util/members'
 import type { InferGetStaticPropsType } from 'astro'
 
 export async function getStaticPaths() {
-  const authors = await generateAuthors()
-
+  const authors = await getMemberIds()
   return authors.map((author) => ({
     params: { author },
     props: { author }
@@ -52,6 +52,9 @@ const iconData = {
     <a href={url} target="_blank" class="text-4xl"><Icon class="clickable" name=`${iconData[platform]}` /></a>
     ))}
   </div>
-  <h2>Blogs by {author}</h2>
-  <PostsList {posts} />
+  {
+  posts.length > 0 && (
+    <h2>Blogs by {author}</h2>
+    <PostsList {posts} />)
+  }
 </PageLayout>
