@@ -51,7 +51,7 @@ export default defineThemeConfig({
   postsPerPage: 3,
   projectsPerPage: 2,
   achievementsPerPage: 5,
-  memberRowsPerPage: 4,
+  memberRowsPerPage: 6,
   scrollProgress: false,
   scrollToTop: true,
   tagIcons: {
