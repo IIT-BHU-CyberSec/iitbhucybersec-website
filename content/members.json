@@ -4,7 +4,7 @@
 		"name": "Yuval Goyal",
 		"bio": "I use arch btw :)",
 		"description": "Hey! I am **Yuval Goyal**, a 3rd year CSE student from IIT(BHU), Varanasi, India and go by the name of `kn1gh7` on the internet. I am the current Co-Lead of `IIT(BHU)CyberSec` along with [43H1](/authors/43H1) and [rasimhankunrava](/authors/rasimhankunrava). **Cybersecurity**, **Develepment** and **Low Level Programming** are my major interests. Hit me up if you have similiar interests. I blog about _stuff_ [here](https://0xkn1gh7.com).",
-		"socials":{
+		"socials": {
 			"website": "https://0xkn1gh7.com",
 			"linkedin": "https://rebrand.ly/yuval-linkedin",
 			"github": "https://rebrand.ly/yuval-github",
@@ -16,10 +16,73 @@
 		"name": "Tanmay Gupta",
 		"bio": "btw I use arch",
 		"description": "another day maybe?",
-		"socials":{
+		"socials": {
 			"linkedin": "https://rebrand.ly/mLinkedin",
 			"github": "https://rebrand.ly/savv-github",
 			"codeforces": "https://rebrand.ly/mCodeforces"
+		}
+	},
+	{
+		"id": "iedfa",
+		"name": "Arnav Kumar Sinha",
+		"bio": "![https://xkcd.com/1024/](https://imgs.xkcd.com/comics/error_code.png)",
+		"description": "This is Arnav. I like cryptography.\n\nAKA: `rasimhankunrava`, `nirvana`",
+		"socials": {
+			"twitter": "https://iedfa.bsky.social",
+			"github": "https://github.com/JustAnAverageGuy/",
+			"linkedin": "https://www.linkedin.com/in/iedfa/",
+			"codeforces": "https://codeforces.com/profile/iedfa"
+		}
+	},
+	{
+		"id": "criticic",
+		"name": "Sagnik Mandal",
+		"bio": "some guy",
+		"description": "not much",
+		"socials": {
+			"linkedin": "https://www.linkedin.com/in/SagnikMandal",
+			"github": "https://github.com/criticic"
+		}
+	},
+	{
+		"id": "Wizard",
+		"name": "Varun Trivedi",
+		"bio": "you have seen this before",
+		"description": "void (*wizard)(void)=(void (*)(void))0xDEADC0DE;",
+		"socials": {
+			"github": "https://github.com/Wizard079"
+		}
+	},
+	{
+		"id": "shinigami-777",
+		"name": "Tamaghna Chattopadhyay",
+		"bio": "I wish I was a cat",
+		"description": "Nyanyame nyanyajyuunyanya-do no nyarabi de nyakunyaku inyanyaku nyanyahan nyanyadai nyanynaku nyarabete nyaganyagame",
+		"socials": {
+			"github": "https://github.com/shinigami-777",
+			"codeforces": "https://codeforces.com/profile/shinigami777"
+		}
+	},
+	{
+		"id": "h0gw4rt5",
+		"name": "Varalika Agarwal",
+		"bio": "Phoenix",
+		"description": "Hey!! I am **Varalika Agarwal**, a sophomore studying Mathematics & Computing at IIT (BHU), Varanasi, India. I am passionate about learning new things and constantly striving to improve myself.",
+		"socials": {
+			"linkedin": "https://www.linkedin.com/in/varalika-agarwal/",
+			"github": "https://github.com/VaralikaAg",
+			"codeforces": "https://codeforces.com/profile/Varalika"
+		}
+	},
+	{
+		"id": "ScourgeXV",
+		"name": "Saatvic Sehgal",
+		"bio": "Why so Serious ;)",
+		"description": "Hey there! Myself **Saatvic Sehgal**, 2nd year student of Mechanical Engineering, IIT(BHU) Varanasi.",
+		"socials": {
+			"linkedin": "https://www.linkedin.com/in/saatvic-sehgal/",
+			"github": "https://github.com/ScourgeXV",
+			"codeforces": "https://codeforces.com/profile/ScourgeXV"
 		}
 	}
 ]
