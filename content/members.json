@@ -96,5 +96,16 @@
 			"github": "https://github.com/conjectureguy",
 			"codeforces": "https://codeforces.com/profile/conjectureguy"
 		}
+	},
+	{
+		"id": "AKripper",
+		"name": "Arshit Kanwar",
+		"bio": "hmmm",
+		"description": "Hey! I'm **Arshit Kanwar**, a sophomore studying Mechanical Engineering at IIT(BHU) Varanasi.",
+		"socials": {
+			"linkedin": "https://www.linkedin.com/in/arshit-kanwar-3b11232ab/",
+			"github": "https://github.com/AKripper/",
+			"codeforces": "https://codeforces.com/profile/AK2608"
+		}
 	}
 ]
