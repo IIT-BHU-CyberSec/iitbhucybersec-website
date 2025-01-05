@@ -108,15 +108,15 @@
 			"codeforces": "https://codeforces.com/profile/AK2608"
 		}
 	},
-    {
-        "id": "Argus817",
-        "name": "Naman Tandel",
-        "bio": "oh lol"
-        "description": "Maximum Effort",
-        "socials": {
-            "linkedin": "https://www.linkedin.com/in/namantandel",
-            "github": "https://github.com/Argus817/",
-            "codeforces": "https://codeforces.com/profile/Argus817"
-        }
-    }
+        {
+        	"id": "Argus817",
+	        "name": "Naman Tandel",
+	        "bio": "oh lol"
+	        "description": "Maximum Effort",
+	        "socials": {
+	            "linkedin": "https://www.linkedin.com/in/namantandel",
+	            "github": "https://github.com/Argus817/",
+	            "codeforces": "https://codeforces.com/profile/Argus817"
+	        }
+    	}
 ]
