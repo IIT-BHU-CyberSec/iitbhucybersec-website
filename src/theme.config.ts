@@ -32,12 +32,12 @@ export default defineThemeConfig({
     },
     {
       icon: 'tabler--brand-x',
-      href: '#',
+      href: 'https://x.com/IITBHUCyberSec',
       label: 'Twitter'
     },
     {
       icon: 'tabler--brand-instagram',
-      href: '#',
+      href: 'https://www.instagram.com/iitbhucybersec',
       label: 'Instagram'
     }
   ],
