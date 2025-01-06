@@ -12,8 +12,11 @@ To understand how to exploit, you must first understand the target you are explo
 
 As with learning anything, only reading won't take you anywhere and you'll have to practice to understand things. All the best!
 
+Below is a roadmap formed by our experience. If you want a more general list of resources check out [Awesome CTF](https://github.com/apsdehal/awesome-ctf).
+
 ---
 ## <u>General</u>
+These are skills which may not seem of direct use in CTFs or in CyberSecurity in general. But when combined with appropriate knowledge, they take a level apart from others. Mastering these skills as early as possible had added benefit specially where you are expected to know some basics of them.
 
 ### `Linux`
 Being comfortable in using Linux is an important first task for every hacker. Understanding of filesystems, processes, users and security principles is also a must. Skill in Bash Scripting will also help you automate lots of tasks while testing.
@@ -25,4 +28,98 @@ Our workshop covered all content you need to start. Access it [here](https://www
 - [Over The Wire: Bandit](https://overthewire.org/wargames/bandit/)
 - [pwn.college: Linux Luminarioum Dojo](https://pwn.college/linux-luminarium/)
 
+
+### `Programming`
+Programming is an essentail skill for all hackers. Understanding basic principles for any code helps to quickly interpret code in different languages. Understanding of C at a deep level, Python, Javascript and Bash will help a long way in terms of CTFs. 
+#### Learning
+There are some great free online resources for learning all the above mentioned languages. Make sure you keep writing programs and not only read to actually learn.
+
+
+| Language | Resource |
+| ----------- | ----------- |
+| **C** | [Beej's Guide to C Programming](https://beej.us/guide/bgc/) |
+| **Python** | [Official Python Tutorial](https://docs.python.org/3/tutorial/index.html) |
+| **Javascript** | [You Don't Know JS Yet](https://github.com/getify/You-Dont-Know-JS) |
+| **Bash** | [Follow anything from Awesome Bash](https://github.com/awesome-lists/awesome-bash) |
+
+#### Practice
+The best way to practice these languages is to use them. One of the ways is to build projects (stuff you want to). Another route is to learn Data Structures and Algorithms and apply it in each language. This way you will be able to understand and explore the intricacies of the specific language.
+
 ---
+## <u>Binary Exploitation</u>
+Binary exploitation (known as *pwn*ing) is the art of exploiting vulnerabilities in Binaries (eg - PE files in Windows and ELF files in Linux) to get desired *unintentional* functionailities. This unintentional functionality may vary from printing a hidden variable in the memory to getting a full admin shell on the system. There is practically no limit to types of challenges you can see here - once you believe you have it all, CTF authors throw different architectures for you to work on! (Looking at you RISCV :D). The ultimate learning is therefore not just the methods, but understanding actual working of the system and how to build those methods.
+
+### `Prerequisites`
+To actually understand these binaries and how they work at an OS level, you definitely need to have some knowledge of OS concepts. You also need to understand some assembly in order to understand the program at instruction level. Knowledge of debugging in tools like [gdb](https://www.gnu.org/savannah-checkouts/gnu/gdb/index.html) give additional help. Scripting knowledge in Python makes things a lot easier using the [pwntools](https://docs.pwntools.com/en/stable/) library.
+
+### `Core Techniques`
+There are some awesome resources for you to teach the Core Techniques along with some prerequisistes as well!
+
+| Topic | Resource |
+| ----------- | ----------- |
+| **Operating Systems** | [Operating Systems: Three Easy Pieces](https://pages.cs.wisc.edu/~remzi/OSTEP/) |
+| **x86 Assembly** | [x86 Assembly Guide](https://www.cs.virginia.edu/~evans/cs216/guides/x86.html) |
+| **Core** | [LiveOverflow's Playlist](https://youtube.com/playlist?list=PLhixgUqwRTjxglIswKp9mpkfPNfHkzyeN&si=BFjRtbjTjSHKKPVC) |
+| **Core** | [pwn.college Dojos](https://pwn.college/) |
+| **Core** | [ir0nstone's Notes](https://ir0nstone.gitbook.io/notes) |
+
+---
+## <u>Cryptography</u>
+Cryptography is the study of encryptions and encodings to make and break them.
+The modern internet relies on cryptography as a backbone to ensure that the packets are delivered to their intended recipients and to them only.
+An interest in mathematics will allow you to explore and understand a wide variety of encryption schemes and techniques, along with their weaknesses.
+
+| Type | link |
+|--|--|
+| **To practice and to learn** | [CryptoHack](https://cryptohack.org/)|
+| **RSA Attacks** | [20 Years of attacks on RSA](https://crypto.stanford.edu/~dabo/papers/RSA-survey.pdf)
+| **Tool to identify and break (un)common ciphers** |[dcode](https://www.dcode.fr/en)|
+
+---
+## <u>Forensics</u>
+Forensics deal with investigation of certain events and determining what would have happened. Its mostly related with Reverse Engineering for Malware Analysis. Some other things might include fixing corrupt files, recovering deleted data, network analysis etc. Steganography, the art of hiding data in plain sight is also considered a part of Forensics sometimes. It usually requires knowledge for file formats and their structure. Majority of steganography challenges are based on using a specific tool.
+
+---
+## <u>OSINT</u>
+OSINT stands for Open Source Intelligence. Gathering information from public data about a target is the job to do. Skillset wise, it doesn't seem much, but its actually the toughest - patience and observation skills. The only way to develop the correct intuition and learn these skills is practicing and solving challenges in CTFs. You can also take help of some tools to make your life easier.
+
+| Type | Resource |
+| ----------- | ----------- |
+| **List of Common Tools** | [OSINT Framework](https://osintframework.com/) |
+| **Some OSINT exercises** | [Sofia Santos' Exercises](https://gralhix.com/list-of-osint-exercises/) |
+| **Some more OSINT exercises** | [OSINT Dojo](https://www.osintdojo.com/) |
+
+---
+## <u>Reverse Engineering</u>
+Very similiar to Binary Exploitation, Reverse Engineering also deals with Binaries (well not always but you'll know). But instead of finding vulnerabilities, RE deals with understanding the complete functionality of the given binary. RE is used vastly in real world and is also used in conjunction with many categories like Forensics (for malware analysis) and Binary Exploitation (you need to understand the binary first to find a flaw). Although a lot of knowledge and skill is required to master RE, a lot of the work can be done by tools if you know how to use them.
+
+| Type | Resource |
+| ----------- | ----------- |
+| **RE Principles** | [Reverse Engineering for Beginners(RE4B)](https://beginners.re/) - [Last Free Copy](https://repository.root-me.org/Reverse%20Engineering/EN%20-%20Reverse%20Engineering%20for%20Beginners%20-%20Dennis%20Yurichev.pdf)|
+| **Ghidra** | [stacksmashing's Reversing WannaCry](https://youtube.com/playlist?list=PLniOzp3l9V83Yf52IXJTvW9rjstdqkduP&si=KNfyIfVLVKmGqp3i) |
+
+We highly recommend [LiveOverflow's this video](https://youtu.be/gPsYkV7-yJk) which is a very good starting point for learning RE and assembly as well.
+
+---
+## <u>Web Exploitation</u>
+Web Exploitation, also probably the most heard or *imaginated* form of hacking deals with hacking web apps. Web Exploitation requires understanding of how the web functions before actually understanding any security concerns. Most developers...*cough, cough*...don't understand this and dive directly into frameworks for developing web apps which ultimately leads to botched up security. Although frameworks now are much more secure by design, still there is a lot of scope for finding bugs due to some...*cough, cough*...uncareful developers.
+
+### `Prerequisites`
+Understanding basic networking, HTTP requests and any single web development framework(just to know the developer's POV) would be great. You will need decent knowledge of Javascript, HTML, CSS as well.
+
+| Type | Resource |
+| ----------- | ----------- |
+| **Computer Networking Basics** | [LiveOverflow's Computer Networking](https://youtu.be/6G14NrjekLQ) |
+| **Protocols** | [LiveOverflow's What is a protocol?](https://youtu.be/d-zn-wv4Di8) |
+| **Web** | [pwn.college's Talking Web dojo](https://pwn.college/intro-to-cybersecurity/talking-web/) |
+| **Web Dev with Flask** | [Corey Schafer's Flask Series](https://youtube.com/playlist?list=PL-osiE80TeTs4UjLw5MM6OjgkjFeUxCYH&si=B3kq8072hoZOkaem) |
+
+### `Core`
+There are some really good free practice and learning resources online! We recommend using [BurpSuite](https://portswigger.net/burp/communitydownload) OR [Caido](https://caido.io/) for intercepting requests.
+
+| Type | Resource |
+| ----------- | ----------- |
+| **Holy Grail (Theory + Labs)** | [PortSwigger Web Security Academy](https://portswigger.net/web-security) |
+| **Basic Vulns + Labs** | [pwn.college's Web Security Dojo](https://pwn.college/intro-to-cybersecurity/web-security/) |
+| **Visual Understanding** | [PwnFunction](https://www.youtube.com/@PwnFunction) |
+
