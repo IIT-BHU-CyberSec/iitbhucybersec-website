@@ -108,15 +108,28 @@
 			"codeforces": "https://codeforces.com/profile/AK2608"
 		}
 	},
-        {
-        	"id": "Argus817",
-	        "name": "Naman Tandel",
-	        "bio": "oh lol",
-	        "description": "Maximum Effort",
-	        "socials": {
-	            "linkedin": "https://www.linkedin.com/in/namantandel",
-	            "github": "https://github.com/Argus817/",
-	            "codeforces": "https://codeforces.com/profile/Argus817"
-	        }
-    	}
+	{
+		"id": "Argus817",
+		"name": "Naman Tandel",
+		"bio": "oh lol",
+		"description": "Maximum Effort",
+		"socials": {
+			"linkedin": "https://www.linkedin.com/in/namantandel",
+			"github": "https://github.com/Argus817/",
+			"codeforces": "https://codeforces.com/profile/Argus817"
+		}
+	},
+	{
+		"id": "MarshmalloQi",
+		"name": "Jayesh Puri",
+		"bio": "I use ΛRCH btw ^-^",
+		"description": "Nothing Special",
+		"socials": {
+			"website": "https://jayeshpuri.me",
+			"linkedin": "https://www.linkedin.com/in/jayeshpuri/",
+			"github": "https://github.com/Jayesh-Dev21/",
+			"x": "https://x.com/jayeshpuri_21",
+			"codeforces": "https://codeforces.com/profile/kn1gh7.1337"
+		}
+	}
 ]
