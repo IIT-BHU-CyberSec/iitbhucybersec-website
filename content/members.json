@@ -167,6 +167,28 @@
 		}
 	},
 	{
+		"id": "NotoAmen",
+		"name": "Harsh Gupta",
+		"bio": "Kodomo no koibito",
+		"description": "Hehe",
+		"socials": {
+		  	"linkedin": "https://www.linkedin.com/in/notoamen",
+		 	"github": "https://github.com/GittuBabaji",
+		   	"codeforces": "https://codeforces.com/profile/Code_Attempt_2"
+		 }
+	},
+	{
+		"id": "ironhex",
+		"name": "N. Jaynath Kumar",
+		"bio": "",
+		"description": "",
+		"socials": {
+			"linkedin": "https://www.linkedin.com/",
+	    	"github": "https://github.com/",
+	    	"codeforces": "https://codeforces.com/"
+	  	}
+	},
+	{
 		"id": "K4V1N",
 		"name": "Sutirth Dubey",
 		"bio": "I wanna be the very best Like no one ever was",
@@ -178,3 +200,4 @@
 	  	}
 	}
 ]
+
