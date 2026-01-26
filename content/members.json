@@ -142,5 +142,17 @@
 			"github": "https://github.com/adityaamehra",
 			"x": "https://x.com/AdityaaMehra"
 		}
+	},
+	{
+		"id": "1c3b34r",
+		"name": "Suryansh Garg",
+		"alias": "Ice Bear",
+		"bio": "world is full of ash, I'm phoenix",
+		"description": "I go by `1C3 B34R` (Ice Bear) online. Currently an undergraduate at IIT (BHU), Varanasi, I’m interested in problem solving, software engineering, and cybersecurity, and I enjoy understanding how things work beneath the surface. I value consistency, clarity, and learning things the right way.",
+		"socials": {
+			"github": "https://github.com/suryansh00001",
+			"linkedin": "https://www.linkedin.com/in/suryansh00001",
+			"website": "https://suryanshgarg.vercel.app/"
+		}
 	}
 ]
