@@ -154,5 +154,17 @@
 			"linkedin": "https://www.linkedin.com/in/suryansh00001",
 			"website": "https://suryanshgarg.vercel.app/"
 		}
+	},
+	{
+		"id": "Aerex",
+		"name": "Suyash Ranjan",
+		"bio": "Be quiet",
+		"description": "Evening the odds",
+		"socials": {
+			"linkedin": "https://www.linkedin.com/in/aerex",
+			"github": "https://github.com/Aerex0",
+			"x": "https://x.com/suyash_ranjan_",
+			"codeforces": "https://codeforces.com/Aerex/"
+		}
 	}
 ]
