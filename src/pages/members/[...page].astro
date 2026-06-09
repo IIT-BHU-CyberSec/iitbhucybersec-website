@@ -5,23 +5,92 @@ import PageLayout, {
   type Props as PageLayoutProps
 } from '@/layouts/PageLayout.astro'
 import config from '@/theme.config'
-import { getMembers } from '@/util/members'
-import type { GetStaticPaths, InferGetStaticPropsType } from 'astro'
+import { getMembers, getPrevMembers } from '@/util/members'
+import type { InferGetStaticPropsType } from 'astro'
 
-export const getStaticPaths = (async ({ paginate }) => {
-  const members = await getMembers()
+export async function getStaticPaths() {
+  const currentMembers = await getMembers()
+  const prevMembers = await getPrevMembers()
+  const pageSize = config.memberRowsPerPage || 6
 
-  return paginate(members, { pageSize: config.memberRowsPerPage })
-}) satisfies GetStaticPaths
+  // Paginate prevMembers
+  const prevPages = []
+  for (let i = 0; i < prevMembers.length; i += pageSize) {
+    prevPages.push(prevMembers.slice(i, i + pageSize))
+  }
+
+  const totalPages = 1 + prevPages.length
+  const paths = []
+  const totalMembersCount = currentMembers.length + prevMembers.length
+
+  // Page 1: Current Members
+  paths.push({
+    params: { page: undefined },
+    props: {
+      heading: 'Current Members',
+      page: {
+        data: currentMembers,
+        start: 0,
+        end: currentMembers.length - 1,
+        total: currentMembers.length,
+        size: pageSize,
+        currentPage: 1,
+        lastPage: totalPages,
+        url: {
+          current: '/members',
+          prev: undefined,
+          next: totalPages > 1 ? '/members/2' : undefined,
+          first: undefined,
+          last: undefined
+        }
+      }
+    }
+  })
+
+  // Pages 2+: Previous Members
+  for (let index = 0; index < prevPages.length; index++) {
+    const pageNum = 2 + index
+    const prevPageNum = pageNum - 1
+    const nextPageNum = pageNum + 1
+    const startIdx = currentMembers.length + index * pageSize
+    const pageData = prevPages[index]
+
+    paths.push({
+      params: { page: String(pageNum) },
+      props: {
+        heading: 'Previous Members',
+        page: {
+          data: pageData,
+          start: startIdx,
+          end: startIdx + pageData.length - 1,
+          total: totalMembersCount,
+          size: pageSize,
+          currentPage: pageNum,
+          lastPage: totalPages,
+          url: {
+            current: `/members/${pageNum}`,
+            prev: prevPageNum === 1 ? '/members' : `/members/${prevPageNum}`,
+            next:
+              nextPageNum <= totalPages ? `/members/${nextPageNum}` : undefined,
+            first: undefined,
+            last: undefined
+          }
+        }
+      }
+    })
+  }
+
+  return paths
+}
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>
 
-const { page } = Astro.props
+const { heading, page } = Astro.props
 
 const frontmatter: PageLayoutProps['frontmatter'] = {
-  title: 'Members',
+  title: heading,
   activeHeaderLink: 'Members',
-  canonicalURL: new URL('/members/1', Astro.site).toString()
+  canonicalURL: new URL(page.url.current, Astro.site).toString()
 }
 ---
 
