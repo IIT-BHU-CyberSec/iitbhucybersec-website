@@ -48,6 +48,8 @@ export interface ThemeConfig {
   openGraphImage: ImageMetadata | string | undefined
   postsPerPage: number
   projectsPerPage: number
+  achievementsPerPage?: number
+  memberRowsPerPage?: number
   scrollProgress: boolean
   scrollToTop: boolean
   tagIcons: Record<string, Icon>
