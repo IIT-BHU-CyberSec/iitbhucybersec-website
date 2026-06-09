@@ -1,19 +1,24 @@
-import { getCollection, type CollectionEntry } from 'astro:content'
+import { getCollection } from 'astro:content'
 
-export const getMembers = async (
-  member?: string
-) => {
+export const getMembers = async () => {
+  return await getCollection('members')
+}
+
+export const getPrevMembers = async () => {
+  return await getCollection('prev_members')
+}
+
+export const getMemberById = async (id: string) => {
   const members = await getCollection('members')
-  if(typeof(member) !== 'undefined') {
-    return members
-      .filter(
-        (a) => a.id === member
-      )[0]
-  }
-  return members
+  const found = members.find((a) => a.id === id)
+  if (found) return found
+
+  const prevMembers = await getCollection('prev_members')
+  return prevMembers.find((a) => a.id === id)
 }
 
 export const getMemberIds = async () => {
-  const members = await getMembers()
-  return members.map((member) => member.data.id)
+  const members = await getCollection('members')
+  const prevMembers = await getCollection('prev_members')
+  return [...members, ...prevMembers].map((member) => member.data.id)
 }

@@ -1,40 +1,47 @@
 ---
 import type { CollectionEntry } from 'astro:content'
-import PreviewImage from './PreviewImage.astro'
-import { toDateString } from '@/util'
 import { Icon } from 'astro-icon/components'
 
 export interface Props {
-  member: CollectionEntry<'members'>
+  member: CollectionEntry<'members'> | CollectionEntry<'prev_members'>
 }
 
-const { id, data } = Astro.props.member
+const { data } = Astro.props.member
 
 const iconData = {
-  "instagram": "tabler:brand-instagram",
-  "twitter": "tabler:brand-twitter",
-  "x": "tabler:brand-x",
-  "github": "tabler:brand-github",
-  "linkedin": "tabler:brand-linkedin",
-  "website": "tabler:world-www",
-  "codeforces": "simple-icons:codeforces",
+  instagram: 'tabler:brand-instagram',
+  twitter: 'tabler:brand-twitter',
+  x: 'tabler:brand-x',
+  github: 'tabler:brand-github',
+  linkedin: 'tabler:brand-linkedin',
+  website: 'tabler:world-www',
+  codeforces: 'simple-icons:codeforces'
 }
-
 ---
 
-
-<div class="hover:opacity-80 flex gap-4 border rounded-md px-8 py-4 md:flex-row md:gap-8">
+<div
+  class="flex gap-4 rounded-md border px-8 py-4 hover:opacity-80 md:flex-row md:gap-8"
+>
   <div class="flex w-full flex-col gap-2 p-2">
     <div>
-      <div class="text-xl font-black"><a class="no-underline" href=`/authors/${data.id}`>{data.id}</a></div>
+      <div class="text-xl font-black">
+        <a class="no-underline" href={`/authors/${data.id}`}>{data.id}</a>
+      </div>
       <div class="text-base">{data.name}</div>
     </div>
-    <div class="opacity-75 text-base text-wrap">{data.bio}</div>
+    <div class="text-wrap text-base opacity-75">{data.bio}</div>
   </div>
-  <div class="grid grid-rows-3 gap-2 grid-flow-col p-2">
-    {Object.entries(data.socials).map(([platform, url]) => (
-    <a href={url} target="_blank" class="text-xl"><Icon class="clickable" name=`${iconData[platform]}` /></a>
-    ))}
-    </div>
+  <div class="grid grid-flow-col grid-rows-3 gap-2 p-2">
+    {
+      data.socials &&
+        Object.entries(data.socials).map(([platform, url]) => (
+          <a href={url} target="_blank" class="text-xl">
+            <Icon
+              class="clickable"
+              name={`${iconData[platform as keyof typeof iconData]}`}
+            />
+          </a>
+        ))
+    }
+  </div>
 </div>
-

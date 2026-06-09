@@ -1,13 +1,12 @@
 ---
 import PostsList from '@/components/PostsList.astro'
-import { Icon } from 'astro-icon/components';
-import { marked } from 'marked';
+import { Icon } from 'astro-icon/components'
+import { marked } from 'marked'
 import PageLayout, {
   type Props as PageLayoutProps
 } from '@/layouts/PageLayout.astro'
 import { getPosts } from '@/util/posts'
-import { getMemberIds } from '@/util/members'
-import {getMembers} from '@/util/members'
+import { getMemberIds, getMemberById } from '@/util/members'
 import type { InferGetStaticPropsType } from 'astro'
 
 export async function getStaticPaths() {
@@ -23,7 +22,11 @@ const { author } = Astro.props
 type Props = InferGetStaticPropsType<typeof getStaticPaths>
 
 const posts = await getPosts(undefined, author)
-const authorData = await getMembers(author)
+const authorData = await getMemberById(author)
+
+if (!authorData) {
+  return Astro.redirect('/404')
+}
 
 const frontmatter: PageLayoutProps['frontmatter'] = {
   title: `Author: ${author}`,
@@ -31,30 +34,41 @@ const frontmatter: PageLayoutProps['frontmatter'] = {
 }
 
 const iconData = {
-  "instagram": "tabler:brand-instagram",
-  "twitter": "tabler:brand-twitter",
-  "x": "tabler:brand-x",
-  "github": "tabler:brand-github",
-  "linkedin": "tabler:brand-linkedin",
-  "website": "tabler:world-www",
-  "codeforces": "simple-icons:codeforces",
+  instagram: 'tabler:brand-instagram',
+  twitter: 'tabler:brand-twitter',
+  x: 'tabler:brand-x',
+  github: 'tabler:brand-github',
+  linkedin: 'tabler:brand-linkedin',
+  website: 'tabler:world-www',
+  codeforces: 'simple-icons:codeforces'
 }
 ---
 
 <PageLayout {frontmatter}>
   <div class="flex flex-col gap-4">
     <div class="text-6xl font-black">{author}</div>
-      <div class="text-base">{authorData.data.bio}</div>
+    <div class="text-base">{authorData.data.bio}</div>
   </div>
-  <div set:html={marked(authorData.data.description)}></div>
+  <div set:html={marked(authorData.data.description || '')} />
   <div class="flex flex-row gap-4">
-    {Object.entries(authorData.data.socials).map(([platform, url]) => (
-    <a href={url} target="_blank" class="text-4xl"><Icon class="clickable" name=`${iconData[platform]}` /></a>
-    ))}
+    {
+      authorData.data.socials &&
+        Object.entries(authorData.data.socials).map(([platform, url]) => (
+          <a href={url} target="_blank" class="text-4xl">
+            <Icon
+              class="clickable"
+              name={`${iconData[platform as keyof typeof iconData]}`}
+            />
+          </a>
+        ))
+    }
   </div>
   {
-  posts.length > 0 && (
-    <h2>Blogs by {author}</h2>
-    <PostsList {posts} />)
+    posts.length > 0 && (
+      <>
+        <h2>Blogs by {author}</h2>
+        <PostsList {posts} />
+      </>
+    )
   }
 </PageLayout>
