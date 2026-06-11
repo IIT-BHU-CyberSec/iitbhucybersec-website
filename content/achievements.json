@@ -1,7 +1,7 @@
 [	
 	{
 		"id": 1,
-		"title": "SpookyCTF 2024",
+		"title": "SpookyCTF 2024 (Global Rank 6, India Rank 1)",
 		"position": 1,
 		"link": "https://ctftime.org/event/2516",
 		"date": "2024-10-25",
@@ -52,6 +52,140 @@
 		"date": "2024-07-13",
 		"ctf_points": 5955.000,
 		"rating_points": 13.802
+	},
+	{
+		"id": 7,
+		"title": "TSG CTF 2025",
+		"position": 230,
+		"link": "https://ctftime.org/event/2867",
+		"date": "2025-12-20",
+		"ctf_points": 400.000,
+		"rating_points": 3.214
+	},
+	{
+		"id": 8,
+		"title": "CSAW CTF Final Round 2025 (Official Team)",
+		"position": 25,
+		"link": "https://ctftime.org/event/2437",
+		"date": "2025-11-06",
+		"ctf_points": 5983.000,
+		"rating_points": 18.636
+	},
+	{
+		"id": 9,
+		"title": "CSAW CTF Final Round 2025 (Tomato Soup)",
+		"position": 40,
+		"link": "https://ctftime.org/event/2437",
+		"date": "2025-11-06",
+		"ctf_points": 4507.000,
+		"rating_points": 13.911
+	},
+	{
+		"id": 10,
+		"title": "RSTCON 2025 CTF (Tomato Soup)",
+		"position": 66,
+		"link": "https://ctftime.org/event/2458",
+		"date": "2025-10-24",
+		"ctf_points": 1809.000,
+		"rating_points": 5.583
+	},
+	{
+		"id": 11,
+		"title": "jailCTF 2025 (Official Team)",
+		"position": 27,
+		"link": "https://ctftime.org/event/2737",
+		"date": "2025-09-12",
+		"ctf_points": 858.000,
+		"rating_points": 2.299
+	},
+	{
+		"id": 12,
+		"title": "CSAW CTF Qualification Round 2025 (Official Team)",
+		"position": 63,
+		"link": "https://ctftime.org/event/2372",
+		"date": "2025-09-12",
+		"ctf_points": 4507.000,
+		"rating_points": 9.176
+	},
+	{
+		"id": 13,
+		"title": "CSAW CTF Qualification Round 2025 (Tomato Soup)",
+		"position": 87,
+		"link": "https://ctftime.org/event/2372",
+		"date": "2025-09-12",
+		"ctf_points": 3245.000,
+		"rating_points": 6.608
+	},
+	{
+		"id": 14,
+		"title": "NahamCon CTF 2025",
+		"position": 272,
+		"link": "https://ctftime.org/event/2782",
+		"date": "2025-05-23",
+		"ctf_points": 1789.000,
+		"rating_points": 6.260
+	},
+	{
+		"id": 15,
+		"title": "BITSCTF 2025",
+		"position": 47,
+		"link": "https://ctftime.org/event/2525",
+		"date": "2025-02-07",
+		"ctf_points": 2055.000,
+		"rating_points": 5.034
+	},
+	{
+		"id": 16,
+		"title": "KnightCTF 2025",
+		"position": 142,
+		"link": "https://ctftime.org/event/2353",
+		"date": "2025-01-20",
+		"ctf_points": 1600.000,
+		"rating_points": 5.286
+	},
+	{
+		"id": 17,
+		"title": "IrisCTF 2025",
+		"position": 86,
+		"link": "https://ctftime.org/event/2554",
+		"date": "2025-01-04",
+		"ctf_points": 1658.000,
+		"rating_points": 5.961
+	},
+	{
+		"id": 18,
+		"title": "Midnight Sun CTF 2026 Quals",
+		"position": 307,
+		"link": "https://ctftime.org/event/2773",
+		"date": "2026-04-04",
+		"ctf_points": 441.000,
+		"rating_points": 5.683
+	},
+	{
+		"id": 19,
+		"title": "DawgCTF 2026 (Tomato Soup)",
+		"position": 123,
+		"link": "https://ctftime.org/event/3102",
+		"date": "2026-04-10",
+		"ctf_points": 6710.000,
+		"rating_points": 36.719
+	},
+	{
+		"id": 20,
+		"title": "TexSAW 2026 (Tomato Soup)",
+		"position": 193,
+		"link": "https://ctftime.org/event/3130",
+		"date": "2026-03-27",
+		"ctf_points": 800.000,
+		"rating_points": 6.358
+	},
+	{
+		"id": 21,
+		"title": "LA CTF 2026",
+		"position": 468,
+		"link": "https://ctftime.org/event/2653",
+		"date": "2026-02-13",
+		"ctf_points": 647.000,
+		"rating_points": 4.378
 	}
-
 ]
